@@ -1,7 +1,15 @@
-import React from 'react';
+import { PropsWithChildren } from 'react';
+import Footer from './footer';
+import Header from './header';
 
-const Layout = () => {
-  return <div>Layout</div>;
+const Layout = ({ children }: PropsWithChildren) => {
+  return (
+    <div>
+      <Header />
+      {children}
+      <Footer />
+    </div>
+  );
 };
 
 export default Layout;
