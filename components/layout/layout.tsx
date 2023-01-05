@@ -1,14 +1,44 @@
+import Image from 'next/image';
 import { PropsWithChildren } from 'react';
-import Footer from './footer';
-import Header from './header';
+import background from '/public/images/background.jpg';
+import Navbar from './navbar';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+// import SideBar from './sidebar';
 
-const Layout = ({ children }: PropsWithChildren) => {
+interface LayoutProps extends PropsWithChildren {
+  title: string;
+}
+
+const Layout = ({ children, title }: LayoutProps) => {
+  const { pathname } = useRouter();
+  const isHome = pathname === '/';
   return (
-    <div>
-      <Header />
-      {children}
-      <Footer />
-    </div>
+    <>
+      {/* TODO: title 각 페이지마다 동적으로 할 수 있게 수정해야할듯? */}
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <div className="h-screen flex relative">
+        <div className="z-10 w-full h-full absolute flex">
+          <div className="w-full">
+            <header>
+              <Navbar />
+            </header>
+            <main>{children}</main>
+          </div>
+        </div>
+        {isHome && (
+          <Image
+            src={background}
+            alt="background"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="top"
+          />
+        )}
+      </div>
+    </>
   );
 };
 
