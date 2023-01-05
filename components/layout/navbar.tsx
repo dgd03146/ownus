@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { TbUserCircle } from 'react-icons/tb';
 import { BsBag } from 'react-icons/bs';
-import { pages } from 'constants/constants';
+import { pages } from 'constants/pages';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
 

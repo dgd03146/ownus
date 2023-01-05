@@ -15,6 +15,7 @@ const Layout = ({ children, title }: LayoutProps) => {
   const isHome = pathname === '/';
   return (
     <>
+      {/* TODO: title 각 페이지마다 동적으로 할 수 있게 수정해야할듯? */}
       <Head>
         <title>{title}</title>
       </Head>
