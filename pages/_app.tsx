@@ -4,7 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../react-query/queryClient';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ApiProvider } from 'context/apiContext';
-import Navbar from '@components/layout/navbar';
+import Header from '@components/layout/header';
 import Layout from '@components/layout/layout';
 
 export default function App({ Component, pageProps }: AppProps) {
