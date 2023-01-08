@@ -14,8 +14,9 @@ module.exports = {
       primary5: '#EA047E',
 
       white1: '#ffffff',
+      white2: '#ececec',
       gray1: '#d0d0d0',
-      gray2: '#333333',
+
       myDarkBlue: '#041627',
       myBlue: '#458ff7',
       myGray: '#eff2f5',
