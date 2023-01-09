@@ -13,12 +13,13 @@ module.exports = {
       primary4: '#F56EB3',
       primary5: '#EA047E',
 
+      blue: '#458ff7',
       white1: '#ffffff',
       white2: '#ececec',
       gray1: '#d0d0d0',
 
       myDarkBlue: '#041627',
-      myBlue: '#458ff7',
+
       myGray: '#eff2f5',
       myLightGray: '#f0f0f0',
       myBeigeGray: '#f5f5f5',

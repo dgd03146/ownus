@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
-import Layout from '@components/layout/layout';
+import Layout from '@layouts/layout';
 import { useApi } from 'context/apiContext';
 import { AuthService } from '@services/authService';
 import background from '/public/images/background.jpg';

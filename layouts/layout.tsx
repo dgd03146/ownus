@@ -15,7 +15,7 @@ interface LayoutProps extends PropsWithChildren {
 const Layout = ({ children, title }: LayoutProps) => {
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
-  const isAuthPage = pathname === '/login';
+  const isAuthPage = pathname === '/signin' || 'signup';
   return (
     <>
       {/* TODO: title 각 페이지마다 동적으로 할 수 있게 수정해야할듯? */}
