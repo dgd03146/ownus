@@ -3,10 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
-    font-family: 'Pretendard';
-    src: url('/fonts/pretendard-regular.subset.woff2') format('woff2');
-    font-display: swap;
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-xl;
   }
 
   html {

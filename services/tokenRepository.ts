@@ -1,6 +1,6 @@
 interface TokenRepositoryInterface {
   save(token: string): void;
-  get(): string | null;
+  get(): string | null | undefined;
   remove(): void;
 }
 
@@ -12,7 +12,10 @@ export class LocalTokenRepository implements TokenRepositoryInterface {
   }
 
   get() {
-    return localStorage.getItem(this.TOKEN_KEY);
+    if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      return localStorage.getItem('key');
+    }
   }
 
   remove() {

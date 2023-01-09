@@ -6,9 +6,9 @@ import { pages } from 'constants/pages';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
 
-const Navbar = () => {
+const Header = () => {
   return (
-    <nav className="py-5 px-8 flex justify-between items-center w-full font-serif text-primary5">
+    <header className="py-5 px-8 flex justify-between items-center w-full font-serif text-primary5">
       <div>
         <Link className="text-3xl font-Cinzel" href={'/'}>
           OWNUS
@@ -32,8 +32,8 @@ const Navbar = () => {
           <TbUserCircle className="text-2xl cursor-pointer" />
         </Link>
       </div>
-    </nav>
+    </header>
   );
 };
 
-export default Navbar;
+export default Header;

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { PropsWithChildren } from 'react';
 import background from '/public/images/background.jpg';
-import Navbar from './navbar';
+import Header from './header';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 // import SideBar from './sidebar';
@@ -10,9 +10,12 @@ interface LayoutProps extends PropsWithChildren {
   title: string;
 }
 
+// TODO: children 안 쓸거면 수정
+
 const Layout = ({ children, title }: LayoutProps) => {
   const { pathname } = useRouter();
-  const isHome = pathname === '/';
+  const isHomePage = pathname === '/';
+  const isAuthPage = pathname === '/signin' || 'signup';
   return (
     <>
       {/* TODO: title 각 페이지마다 동적으로 할 수 있게 수정해야할듯? */}
@@ -22,13 +25,15 @@ const Layout = ({ children, title }: LayoutProps) => {
       <div className="h-screen flex relative">
         <div className="z-10 w-full h-full absolute flex">
           <div className="w-full">
-            <header>
-              <Navbar />
-            </header>
+            {!isAuthPage && (
+              <header>
+                <Header />
+              </header>
+            )}
             <main>{children}</main>
           </div>
         </div>
-        {isHome && (
+        {isHomePage && (
           <Image
             src={background}
             alt="background"
