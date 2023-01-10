@@ -31,11 +31,22 @@ const Layout = ({ children, title }: LayoutProps) => {
                 <Header />
               </header>
             )}
+            {!isAuthPage && (
+              <Image
+                tw="block mobile:hidden"
+                src={background}
+                alt="background"
+                // layout="fill"
+                objectFit="cover"
+                objectPosition="top"
+              />
+            )}
             <main>{children}</main>
           </div>
         </div>
         {isHomePage && (
           <Image
+            tw="hidden mobile:block"
             src={background}
             alt="background"
             layout="fill"
