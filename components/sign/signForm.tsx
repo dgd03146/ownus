@@ -1,5 +1,5 @@
 import tw, { css, styled } from 'twin.macro';
-import SignHeader from '@layouts/sign/signHeader';
+import SignHeader from '@components/sign/signHeader';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';

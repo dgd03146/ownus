@@ -4,8 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '../react-query/queryClient';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ApiProvider } from 'context/apiContext';
-import Header from '@layouts/header';
-import Layout from '@layouts/layout';
+import Layout from '@components/layouts/layout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Layout title="Ownus">
           <Component {...pageProps} />
         </Layout>
+
         <ReactQueryDevtools />
       </ApiProvider>
     </QueryClientProvider>

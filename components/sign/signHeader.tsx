@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
-
+import tw from 'twin.macro';
 const SignHeader = () => {
   return (
-    <header className="py-8 flex justify-between items-center w-full font-serif text-primary5">
-      <Link className="text-4xl font-Cinzel" href={'/'}>
+    <header tw="py-8 flex justify-between items-center w-full text-primary5">
+      <Link tw="text-4xl font-Cinzel" href={'/'}>
         OWNUS
       </Link>
     </header>

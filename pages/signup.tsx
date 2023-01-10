@@ -1,22 +1,31 @@
-import tw, { css, styled } from 'twin.macro';
-import SignHeader from '@layouts/sign/signHeader';
+import tw, { css } from 'twin.macro';
+import SignHeader from '@components/sign/signHeader';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import background from '/public/images/background4.jpg';
 import Link from 'next/link';
 
+interface IFormInputs {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    getValues,
     formState: { errors, isSubmitting }
-  } = useForm();
+  } = useForm<IFormInputs>();
 
-  console.log(watch('example')); // watch input value by passing the name of it
-
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = async (data: any) => {
+    await new Promise((r) => setTimeout(r, 1000));
+    console.log(data, 'data임');
+    alert(JSON.stringify(data));
+  };
 
   return (
     <div css={[tw`flex`]}>
@@ -31,43 +40,71 @@ const SignUp = () => {
               placeholder="사용하실 이름을 입력해주세요"
               {...register('username', {
                 minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
+                  value: 3,
+                  message: '3글자 이상 이름을 입력하세요.'
                 }
               })}
             />
-            <label>이메일 주소</label>
+            <label htmlFor="email">이메일 주소</label>
             <input
-              type="text"
+              id="email"
+              type="email"
               placeholder="이메일 주소를 입력해주세요"
-              {...register('username', {
-                minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
+              {...register('email', {
+                required: '이메일은 필수 입력입니다.',
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: '이메일 형식에 맞지 않습니다.'
                 }
               })}
             />
-            <label>비밀번호</label>
+            {errors.email && (
+              <p css={[tw`text-sm mb-4`, { color: 'red' }]}>
+                {errors.email.message}
+              </p>
+            )}
+            <label htmlFor="password">비밀번호</label>
             <input
-              type="text"
+              id="password"
+              type="password"
               placeholder="비밀번호를 입력해주세요"
-              {...register('username', {
+              {...register('password', {
+                required: '비밀번호는 필수 입력입니다.',
                 minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
+                  value: 8,
+                  message: '8자리 이상 비밀번호를 사용하세요.'
+                },
+                pattern: {
+                  value: /^(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
+                  message: '영문, 숫자를 혼용하여 입력하세요.'
+                },
+                maxLength: {
+                  value: 16,
+                  message: '16자 이하의 비밀번호를 사용하세요.'
                 }
               })}
             />
+            <p css={[tw`text-sm`, { color: 'red' }]}>
+              {errors.password?.message}
+            </p>
             <input
-              type="text"
-              placeholder="비밀번호를 확인합니다"
-              {...register('username', {
-                minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
+              type="password"
+              placeholder="비밀번호를 다시 입력해주세요"
+              {...register('passwordConfirm', {
+                required: '비밀번호를 확인 해주세요.',
+                validate: {
+                  matchPassword: (value) => {
+                    const { password } = getValues();
+                    return (
+                      password === value || '비밀번호가 일치하지 않습니다.'
+                    );
+                  }
                 }
               })}
             />
+            <p css={[tw`text-sm`, { color: 'red' }]}>
+              {errors.passwordConfirm?.message}
+            </p>
             <button
               css={[
                 tw`bg-primary3 my-2 text-white1 text-lg py-2 mt-6`,
@@ -77,6 +114,7 @@ const SignUp = () => {
                   }
                 `
               ]}
+              disabled={isSubmitting}
               type="submit"
             >
               가입하기
@@ -115,7 +153,7 @@ const formStyle = css`
     margin-bottom: 0.5rem;
   }
   label {
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 0.5rem;
   }
   h2 {
