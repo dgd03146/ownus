@@ -5,7 +5,7 @@ import { BsBag } from 'react-icons/bs';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoIosArrowForward } from 'react-icons/io';
-import { pages } from 'constants/pages';
+import { Pages } from 'constants/pages';
 import tw, { css } from 'twin.macro';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
@@ -33,7 +33,7 @@ const Header = () => {
           !showMenu && tw`hidden`
         ]}
       >
-        {pages.map((page) => (
+        {Pages.map((page) => (
           <li
             tw="flex justify-between py-2 mobile:py-0 text-primary3 font-Cinzel"
             key={page.href}
