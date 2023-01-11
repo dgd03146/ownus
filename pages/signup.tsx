@@ -1,5 +1,5 @@
 import tw, { css } from 'twin.macro';
-import SignHeader from '@components/common/auth/signHeader';
+import AuthHeader from '@components/common/auth/AuthHeader';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -51,7 +51,7 @@ const SignUp = () => {
         ]}
       >
         <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
-          <SignHeader />
+          <AuthHeader />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 가입하기</h2>
             <FormInput<SignUpFormInputs>
@@ -101,12 +101,12 @@ const SignUp = () => {
               type="submit"
               disabled={isSubmitting}
             >
-              로그인
+              가입하기
             </button>
             <div>
-              <p css={tw`text-sm mt-10 mb-2`}>아직 계정이 없으신가요?</p>
+              <p css={tw`text-sm mt-10 mb-2`}>이미 계정이 있으신가요?</p>
               <p css={tw`text-blue underline`}>
-                <Link href={'/signup'}>회원가입</Link>
+                <Link href={'/signin'}>로그인</Link>
               </p>
             </div>
           </form>

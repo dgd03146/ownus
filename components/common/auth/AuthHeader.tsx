@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import tw from 'twin.macro';
-const SignHeader = () => {
+const AuthHeader = () => {
   return (
     <header tw="py-8 flex justify-between items-center w-full text-primary5">
       <Link tw="text-4xl font-Cinzel" href={'/'}>
@@ -11,4 +11,4 @@ const SignHeader = () => {
   );
 };
 
-export default SignHeader;
+export default AuthHeader;

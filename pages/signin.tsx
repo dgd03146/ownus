@@ -1,12 +1,15 @@
-import tw, { css, styled } from 'twin.macro';
-import SignHeader from '@components/common/auth/signHeader';
+import tw, { css } from 'twin.macro';
+
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import background from '/public/images/background3.jpg';
 import Link from 'next/link';
+import AuthHeader from '@components/common/auth/AuthHeader';
 import { FormInput } from '@components/common/formInput';
 import { EmailInput, PasswordInput } from 'constants/auth';
+import { useSignIn } from 'hooks/useSignIn';
 //  FIXME: 공통 컴포넌트로 SIGNIN, SIGNUP 만들기?
 
 export type SignFormInputs = {
@@ -15,16 +18,18 @@ export type SignFormInputs = {
 };
 
 const SignIn = () => {
+  const onSign = useSignIn();
+
   const {
     register,
     handleSubmit,
-
     formState: { errors, isSubmitting }
   } = useForm<SignFormInputs>();
 
-  const onSubmit = async (data: any) => {
-    await new Promise((r) => setTimeout(r, 1000));
-    alert(JSON.stringify(data));
+  const onSubmit = async (data: SignFormInputs) => {
+    await new Promise((r) => setTimeout(r, 1000)); // 버튼 중복으로 누르는거 방지
+    const { email, password } = data;
+    onSign({ email, password });
   };
 
   return (
@@ -35,7 +40,7 @@ const SignIn = () => {
         ]}
       >
         <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
-          <SignHeader />
+          <AuthHeader />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 로그인</h2>
             <FormInput<SignFormInputs>

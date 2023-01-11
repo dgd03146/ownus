@@ -8,14 +8,13 @@ import Layout from '@components/layouts/layout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ApiProvider>
+    <ApiProvider>
+      <QueryClientProvider client={queryClient}>
         <Layout title="Ownus">
           <Component {...pageProps} />
         </Layout>
-
         <ReactQueryDevtools />
-      </ApiProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ApiProvider>
   );
 }
