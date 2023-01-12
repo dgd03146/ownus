@@ -1,4 +1,4 @@
-export const endPoint = {
+export const EndPoint = {
   post: 'post',
   products: 'products',
   users: 'users',
