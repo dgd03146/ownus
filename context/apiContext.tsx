@@ -12,7 +12,7 @@ type APIType = {
   authService: AuthService;
 };
 
-const apiContext = createContext<APIType | null>(null);
+export const apiContext = createContext<APIType | null>(null);
 
 const tokenRepository = new LocalTokenRepository();
 const httpClient = new HttpClientService('baseurl', tokenRepository);

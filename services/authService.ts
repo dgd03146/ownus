@@ -33,20 +33,12 @@ export class AuthService {
     //   .then(({ access_token }) => this.tokenRepository.save(access_token));
   }
 
-  singin(email: string, password: string) {
-    // this.httpClient
-    //   .fetch('auth/signup', {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       email,
-    //       password
-    //     })
-    //   })
-    //   .then((res) => res.json())
-    //   .then(({ access_token }) => this.tokenRepository.save(access_token));
+  async singin(email: string, password: string): Promise<any> {
+    console.log(email, password, 'signIn에서 동작?');
+    // return await this.httpClient.instance.get('products', { params: '' });
   }
 
-  logout() {
+  signout() {
     this.tokenRepository.remove();
   }
 }

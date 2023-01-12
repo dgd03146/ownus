@@ -1,83 +1,105 @@
-import tw, { css, styled } from 'twin.macro';
-import SignHeader from '@layouts/sign/signHeader';
+import tw, { css } from 'twin.macro';
+import AuthHeader from '@components/common/auth/AuthHeader';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import background from '/public/images/background4.jpg';
 import Link from 'next/link';
+import { FormInput } from '@components/common/formInput';
+import { SignFormInputs } from './signin';
+import {
+  EmailInput,
+  PasswordInput,
+  UsernameInput,
+  PasswordConfirmInput
+} from 'constants/auth';
+
+type SignUpFormInputs = SignFormInputs & {
+  username: string;
+  passwordConfirm: string;
+};
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    getValues,
     formState: { errors, isSubmitting }
-  } = useForm();
+  } = useForm<SignUpFormInputs>();
 
-  console.log(watch('example')); // watch input value by passing the name of it
+  const passwordConfirmRules = {
+    ...PasswordConfirmInput.rules,
+    validate: {
+      matchPassword: (value: string) => {
+        const { password } = getValues();
+        return password === value || '비밀번호가 일치하지 않습니다.';
+      }
+    }
+  };
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = async (data: any) => {
+    await new Promise((r) => setTimeout(r, 1000));
+    console.log(data, 'data임');
+    alert(JSON.stringify(data));
+  };
 
   return (
     <div css={[tw`flex`]}>
-      <div css={[tw`flex flex-col items-end w-1/2 h-screen px-28`]}>
-        <div>
-          <SignHeader />
+      <div
+        css={[
+          tw`flex mobile:flex-col mobile:items-center desktop:items-end desktop:w-1/2 h-screen w-full mobile:px-28`
+        ]}
+      >
+        <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
+          <AuthHeader />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 가입하기</h2>
-            <label>이름</label>
-            <input
-              type="text"
-              placeholder="사용하실 이름을 입력해주세요"
-              {...register('username', {
-                minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
-                }
-              })}
+            <FormInput<SignUpFormInputs>
+              id={UsernameInput.id}
+              type={UsernameInput.type}
+              name={'username'}
+              label={UsernameInput.label}
+              placeholder={UsernameInput.placeholder}
+              register={register}
+              rules={UsernameInput.rules}
+              errors={errors}
             />
-            <label>이메일 주소</label>
-            <input
-              type="text"
-              placeholder="이메일 주소를 입력해주세요"
-              {...register('username', {
-                minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
-                }
-              })}
+            <FormInput<SignUpFormInputs>
+              id={EmailInput.id}
+              type={EmailInput.type}
+              name={'email'}
+              label={EmailInput.label}
+              placeholder={EmailInput.placeholder}
+              register={register}
+              rules={EmailInput.rules}
+              errors={errors}
             />
-            <label>비밀번호</label>
-            <input
-              type="text"
-              placeholder="비밀번호를 입력해주세요"
-              {...register('username', {
-                minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
-                }
-              })}
+            <FormInput<SignUpFormInputs>
+              id={PasswordInput.id}
+              type={PasswordInput.type}
+              name={'password'}
+              label={PasswordInput.label}
+              placeholder={PasswordInput.placeholder}
+              register={register}
+              rules={PasswordInput.rules}
+              errors={errors}
             />
-            <input
-              type="text"
-              placeholder="비밀번호를 확인합니다"
-              {...register('username', {
-                minLength: {
-                  value: 5,
-                  message: 'Username must be longer than 5 characters'
-                }
-              })}
+            <FormInput<SignUpFormInputs>
+              id={PasswordConfirmInput.id}
+              type={PasswordConfirmInput.type}
+              name={'passwordConfirm'}
+              label={PasswordConfirmInput.label}
+              placeholder={PasswordConfirmInput.placeholder}
+              register={register}
+              rules={passwordConfirmRules}
+              errors={errors}
             />
             <button
               css={[
-                tw`bg-primary3 my-2 text-white1 text-lg py-2 mt-6`,
-                css`
-                  &:hover {
-                    background-color: pink;
-                  }
-                `
+                tw`bg-primary3 my-2 text-white1 text-lg py-2 mt-6 hover:bg-primary2`
               ]}
               type="submit"
+              disabled={isSubmitting}
             >
               가입하기
             </button>
@@ -90,7 +112,7 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-      <div css={tw`w-1/2 h-screen relative`}>
+      <div css={tw`w-1/2 h-screen relative hidden desktop:block`}>
         <Image
           src={background}
           alt="background"
@@ -112,11 +134,9 @@ const formStyle = css`
     outline: none;
     padding: 0.75rem 0.5rem;
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
   }
   label {
-    font-size: 0.8rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
   }
   h2 {
     margin-bottom: 3rem;
