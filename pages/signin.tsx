@@ -6,10 +6,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import background from '/public/images/background3.jpg';
 import Link from 'next/link';
-import AuthHeader from '@components/common/auth/AuthHeader';
-import { FormInput } from '@components/common/formInput';
+import Header from '@components/common/auth/header';
+import { FormInput } from '@components/common/input/formInput';
 import { EmailInput, PasswordInput } from 'constants/auth';
-import { useSignIn } from 'hooks/useSignIn';
+import { useSignIn } from 'queries/hooks/useSignIn';
 //  FIXME: 공통 컴포넌트로 SIGNIN, SIGNUP 만들기?
 
 export type SignFormInputs = {
@@ -40,7 +40,7 @@ const SignIn = () => {
         ]}
       >
         <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
-          <AuthHeader />
+          <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 로그인</h2>
             <FormInput<SignFormInputs>

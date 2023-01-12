@@ -1,4 +1,4 @@
-import { HttpClientService } from './httpClient';
+import { HttpClientService } from '../lib/api/httpClient';
 import { LocalTokenRepository } from './tokenRepository';
 
 export class AuthService {
@@ -13,35 +13,34 @@ export class AuthService {
   }
 
   async signup(email: string, password: string) {
-    // TODO: 약간 요런느낌?
     const accessTOKEN = (await this.httpClient.instance.post(
       'data',
       { email, password },
       { params: '' }
     )) as string;
     this.tokenRepository.save(accessTOKEN);
-
-    // this.httpClient
-    //   .fetch('auth/signup', {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       email,
-    //       password
-    //     })
-    //   })
-    //   .then((res) => res.json())
-    //   .then(({ access_token }) => this.tokenRepository.save(access_token));
   }
 
   async singin(email: string, password: string): Promise<any> {
     console.log(email, password, 'signIn에서 동작?');
-    // return await this.httpClient.instance.get('products', { params: '' });
+    return await this.httpClient.instance.get('login', { params: '' });
   }
 
   signout() {
     this.tokenRepository.remove();
   }
 }
+
+// this.httpClient
+//   .fetch('auth/signup', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//       email,
+//       password
+//     })
+//   })
+//   .then((res) => res.json())
+//   .then(({ access_token }) => this.tokenRepository.save(access_token));
 
 // TODO: 이제 이걸 CONTEXT에서 관리?
 // const tokenRepository = new LocalTokenRepository();

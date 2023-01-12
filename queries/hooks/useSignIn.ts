@@ -1,17 +1,10 @@
-import { Keys } from './../react-query/keys';
-import { queryClient } from './../react-query/queryClient';
+import { Keys } from '../keys';
+import { queryClient } from '../queryClient';
 import { useMutation } from '@tanstack/react-query';
-import { useApi } from 'context/apiContext';
-
-// const api = useContext(apiContext);
+import { User } from 'types/user';
+import { authService } from '@lib/api/instance';
 
 const { USER_QUERY_KEY } = Keys;
-
-export type User = {
-  id: number;
-  nickname: string;
-  profileImg: string;
-};
 
 type SignInVariables = {
   email: string;
@@ -19,14 +12,13 @@ type SignInVariables = {
 };
 
 export const useSignIn = () => {
-  const { authService } = useApi();
-
   const { mutate: onSign } = useMutation<User, Error, SignInVariables>(
     ({ email, password }) => authService.singin(email, password),
     {
       onSuccess(data) {
         queryClient.setQueryData([USER_QUERY_KEY], data);
         return true;
+        // TODO: 네비게이트 시켜줘야함
       },
       onError(error) {
         console.log(error.message);

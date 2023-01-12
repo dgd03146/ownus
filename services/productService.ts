@@ -1,4 +1,4 @@
-import { HttpClientService } from './httpClient';
+import { HttpClientService } from '../lib/api/httpClient';
 import { LocalTokenRepository } from './tokenRepository';
 
 export class ProductService {

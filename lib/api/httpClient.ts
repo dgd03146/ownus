@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { LocalTokenRepository } from './tokenRepository';
+import { LocalTokenRepository } from '../../services/tokenRepository';
 
 // interface HttpClient {
 //   readonly instance: AxiosInstance;
@@ -32,6 +32,7 @@ export class HttpClientService {
 
   private handleResponse = ({ data }: AxiosResponse) => data;
 
-  // TODO: best way to handle axios error? 프리온보딩 강의에 있었는듯?
   protected handleError = (error: any) => Promise.reject(error);
 }
+
+// TODO: best way to handle axios error? 프리온보딩 강의에 있었는듯?
