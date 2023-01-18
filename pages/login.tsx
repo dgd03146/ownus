@@ -2,33 +2,33 @@ import tw, { css } from 'twin.macro';
 
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import background from '/public/images/background3.jpg';
 import Link from 'next/link';
 import Header from '@components/common/auth/header';
 import { FormInput } from '@components/common/input/formInput';
-import { EmailInput, PasswordInput } from 'constants/auth';
-import { useSignIn } from 'queries/hooks/useSignIn';
+import { EmailInput, PasswordInput } from '@lib/constants/auth';
+import { useLogin } from 'queries/hooks/useLogin';
 //  FIXME: 공통 컴포넌트로 SIGNIN, SIGNUP 만들기?
 
-export type SignFormInputs = {
+export type LoginFormInputs = {
   email: string;
   password: string;
 };
 
-const SignIn = () => {
-  const onSign = useSignIn();
+const Login = () => {
+  const onSign = useLogin();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<SignFormInputs>();
+  } = useForm<LoginFormInputs>();
 
-  const onSubmit = async (data: SignFormInputs) => {
+  const onSubmit = async (formData: LoginFormInputs) => {
     await new Promise((r) => setTimeout(r, 1000)); // 버튼 중복으로 누르는거 방지
-    const { email, password } = data;
+    const { email, password } = formData;
     onSign({ email, password });
   };
 
@@ -43,7 +43,7 @@ const SignIn = () => {
           <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 로그인</h2>
-            <FormInput<SignFormInputs>
+            <FormInput<LoginFormInputs>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -53,7 +53,7 @@ const SignIn = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<SignFormInputs>
+            <FormInput<LoginFormInputs>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}
@@ -94,7 +94,7 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
 
 const formStyle = css`
   ${tw`flex flex-col mt-20 py-10 mobile:w-96`},

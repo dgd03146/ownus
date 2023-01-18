@@ -6,15 +6,15 @@ import { useForm } from 'react-hook-form';
 import background from '/public/images/background4.jpg';
 import Link from 'next/link';
 import { FormInput } from '@components/common/input/formInput';
-import { SignFormInputs } from './signin';
+import { LoginFormInputs } from './login';
 import {
   EmailInput,
   PasswordInput,
   UsernameInput,
   PasswordConfirmInput
-} from 'constants/auth';
+} from '@lib/constants/auth';
 
-type SignUpFormInputs = SignFormInputs & {
+type SignUpFormInputs = LoginFormInputs & {
   username: string;
   passwordConfirm: string;
 };

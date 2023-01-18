@@ -5,7 +5,7 @@ import { BsBag } from 'react-icons/bs';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoIosArrowForward } from 'react-icons/io';
-import { Pages } from 'constants/pages';
+import { Pages } from '@lib/constants/pages';
 import tw, { css } from 'twin.macro';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
