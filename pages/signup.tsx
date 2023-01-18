@@ -1,20 +1,20 @@
 import tw, { css } from 'twin.macro';
-import AuthHeader from '@components/common/auth/AuthHeader';
+import Header from '@components/common/auth/header';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import background from '/public/images/background4.jpg';
 import Link from 'next/link';
-import { FormInput } from '@components/common/formInput';
-import { SignFormInputs } from './signin';
+import { FormInput } from '@components/common/input/formInput';
+import { LoginFormInputs } from './login';
 import {
   EmailInput,
   PasswordInput,
   UsernameInput,
   PasswordConfirmInput
-} from 'constants/auth';
+} from '@lib/constants/auth';
 
-type SignUpFormInputs = SignFormInputs & {
+type SignUpFormInputs = LoginFormInputs & {
   username: string;
   passwordConfirm: string;
 };
@@ -51,7 +51,7 @@ const SignUp = () => {
         ]}
       >
         <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
-          <AuthHeader />
+          <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 가입하기</h2>
             <FormInput<SignUpFormInputs>
