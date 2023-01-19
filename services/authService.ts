@@ -14,6 +14,7 @@ export class AuthService {
   private tokenRepository: TokenService;
   constructor(httpClient: HttpClientService) {
     this.httpClient = httpClient;
+    // FIXME: 굳이 tokenRepository를 주입받아야하나?
     this.tokenRepository = this.httpClient.tokenRepository; // 주입받은 httpClient의 tokenRepository를 사용
   }
 
@@ -23,8 +24,7 @@ export class AuthService {
       { email, password }
     );
 
-    this.tokenRepository.saveToken(res.data.accessToken);
-    return res.data;
+    return res;
   }
 
   async signUp(email: string, password: string): Promise<any> {

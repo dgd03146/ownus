@@ -8,19 +8,18 @@ import axios, {
 } from 'axios';
 import { TokenService } from '../../services/tokenService';
 
-// interface HttpClient {
-//   readonly instance: AxiosInstance;
-// }
-
-// TODO: token Repository 주입받아서 유연하게 쓸 수 있게 하자.
-// TODO: 초기화 간단하게 나타내기
-
-let isTokenRefreshing = false;
+interface IFailedRequestQueue {
+  onSuccess: (token: string) => void;
+  // FIXME: AXIOS Error로?
+  onFailure: (error: unknown) => void;
+}
 
 export class HttpClientService {
   private baseURL: string;
   tokenRepository: TokenService;
   instance: AxiosInstance;
+  isTokenRefreshing = false;
+  failedRequestQueue: IFailedRequestQueue[] = [];
 
   constructor(baseURL: string, tokenRepository: TokenService) {
     this.tokenRepository = tokenRepository;
@@ -41,17 +40,26 @@ export class HttpClientService {
   }
 
   private async handleRefreshToken(refreshToken: string) {
-    isTokenRefreshing = true;
-
-    const { data } = await this.instance.post(EndPoint.refresh, {
-      refreshToken
-    });
-    const { accessToken: newAccessToken } = data;
-    this.tokenRepository.saveToken(newAccessToken);
-    this.setAuthorizationHeader(this.instance.defaults, newAccessToken);
-
-    isTokenRefreshing = false;
-    return newAccessToken;
+    this.isTokenRefreshing = true;
+    try {
+      const { data } = await this.instance.post(EndPoint.refresh, {
+        refreshToken
+      });
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        data;
+      this.tokenRepository.saveToken(newAccessToken, newRefreshToken);
+      this.setAuthorizationHeader(this.instance.defaults, newAccessToken);
+      this.failedRequestQueue.forEach((request) =>
+        request.onSuccess(newAccessToken)
+      );
+      this.failedRequestQueue = [];
+    } catch (error) {
+      this.failedRequestQueue.forEach((request) => request.onFailure(error));
+      this.failedRequestQueue = [];
+      this.tokenRepository.removeToken();
+    } finally {
+      this.isTokenRefreshing = false;
+    }
   }
 
   private handleRequest(config: AxiosRequestConfig) {
@@ -71,14 +79,25 @@ export class HttpClientService {
   protected async handleResponseError(error: AxiosError) {
     const { status, message, config } = error;
     if (status === 401) {
-      if (message === 'token expired' && !isTokenRefreshing) {
+      if (message === 'token expired' && !this.isTokenRefreshing) {
         // isTokenRefreshing이 false인 경우에만 token refresh 요청
-        const originalConfig = config; // 원래의 요청
+        const originalConfig = config!; // 원래의 요청
         // token expired 메세지가 나타날 경우
         const refreshToken = this.tokenRepository.getRefreshToken();
-        const token = await this.handleRefreshToken(refreshToken);
 
-        this.setAuthorizationHeader(originalConfig, token);
+        !this.isTokenRefreshing && this.handleRefreshToken(refreshToken);
+
+        return new Promise((resolve, reject) => {
+          this.failedRequestQueue.push({
+            onSuccess: (token: string) => {
+              this.setAuthorizationHeader(originalConfig, token);
+              resolve(this.instance(originalConfig));
+            },
+            onFailure: (error) => {
+              reject(error);
+            }
+          });
+        });
       } else {
         this.tokenRepository.removeToken();
       }
@@ -98,5 +117,3 @@ export class HttpClientService {
     );
   }
 }
-
-// TODO: best way to handle axios error? 프리온보딩 강의에 있었는듯?
