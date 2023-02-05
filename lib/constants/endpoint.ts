@@ -1,7 +1,7 @@
+// FIXME: 엔드포인트 정리하기
 export const EndPoint = {
   post: 'post',
   products: 'products',
-  users: 'users',
   comments: 'comments',
   search: 'search',
   refresh: 'refresh'
@@ -9,5 +9,6 @@ export const EndPoint = {
 
 export const UserEndPoint = {
   login: 'users/login',
-  signUp: 'users/signup'
+  signup: 'users/signup',
+  user: 'users/info'
 };
