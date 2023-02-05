@@ -1,5 +1,5 @@
 import { HttpClientService } from '../lib/api/httpClient';
-import { UserEndPoint } from '@lib/constants/endpoint';
+import { UsersEndPoint } from '@lib/constants/endpoint';
 import { TokenService } from './tokenService';
 import { AxiosResponse } from 'axios';
 
@@ -20,7 +20,7 @@ export class AuthService {
 
   async login(email: string, password: string) {
     const res = await this.httpClient.instance.post<AuthResponse>(
-      UserEndPoint.login,
+      UsersEndPoint.login,
       { email, password }
     );
 
@@ -32,11 +32,11 @@ export class AuthService {
     email: string,
     password: string
   ): Promise<any> {
-    return await this.httpClient.instance.get(UserEndPoint.signup);
+    return await this.httpClient.instance.get(UsersEndPoint.signup);
   }
 
   async getUser() {
-    return await this.httpClient.instance.get(UserEndPoint.user);
+    return await this.httpClient.instance.get(UsersEndPoint.user);
   }
 
   logout() {

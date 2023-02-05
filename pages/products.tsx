@@ -1,72 +1,30 @@
+import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { MockProducts } from 'mock/products';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getProducts, useProducts } from 'queries/hooks/products/useProducts';
+import { queryKeys } from 'queries/keys';
 import React from 'react';
 import tw, { css } from 'twin.macro';
+import { Products } from 'types/products';
+
+export const getStaticProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery([queryKeys.products], getProducts);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
+    },
+    // hydrate에서 revalidate 될까??
+    revalidate: parseInt(process.env.REVALIDATE_SECONDS!)
+  };
+};
 
 const Products = () => {
-  // Mock Data
-  const data = [
-    {
-      product_id: 'p1',
-      p_name: '꽃',
-      p_price: '500,000원',
-      p_info: '너무 이쁜꽃이에여',
-      thunbnail_url:
-        'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
-      created_at: ' ',
-      is_sold: ' '
-    },
-    {
-      product_id: 'p1',
-      p_name: '꽃',
-      p_price: '500,000원',
-      p_info: '너무 이쁜꽃이에여',
-      thunbnail_url:
-        'https://images.unsplash.com/photo-1558350315-8aa00e8e4590?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-      created_at: ' ',
-      is_sold: ' '
-    },
-    {
-      product_id: 'p1',
-      p_name: '꽃',
-      p_price: '500,000원',
-      p_info: '너무 이쁜꽃이에여',
-      thunbnail_url:
-        'https://images.unsplash.com/photo-1431263154979-0982327fccbb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-      created_at: ' ',
-      is_sold: ' '
-    },
-    {
-      product_id: 'p1',
-      p_name: '꽃',
-      p_price: '500,000원',
-      p_info: '너무 이쁜꽃이에여',
-      thunbnail_url:
-        'https://images.unsplash.com/photo-1431263154979-0982327fccbb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-      created_at: ' ',
-      is_sold: ' '
-    },
-    {
-      product_id: 'p1',
-      p_name: '꽃',
-      p_price: '500,000원',
-      p_info: '너무 이쁜꽃이에여',
-      thunbnail_url:
-        'https://images.unsplash.com/photo-1431263154979-0982327fccbb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-      created_at: ' ',
-      is_sold: ' '
-    },
-    {
-      product_id: 'p1',
-      p_name: '꽃',
-      p_price: '500,000원',
-      p_info: '너무 이쁜꽃이에여',
-      thunbnail_url:
-        'https://images.unsplash.com/photo-1431263154979-0982327fccbb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-      created_at: ' ',
-      is_sold: ' '
-    }
-  ];
+  // TODO: 페이지네이션, products map 돌려서 사용해야함
+  const { products } = useProducts();
+
   return (
     <>
       <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-8 mx-auto">
@@ -78,26 +36,28 @@ const Products = () => {
           />
         </div>
         <ul tw="grid py-8 gap-x-10 gap-y-5 tablet:grid-cols-2 desktop:grid-cols-3 ">
-          {data.map(({ product_id, p_name, p_price, thunbnail_url }) => (
-            <li key={product_id}>
-              <Link href={`/products/${product_id}`}>
-                <div css={imageWrapper}>
-                  <Image
-                    src={thunbnail_url}
-                    alt="product"
-                    layout="fill"
-                    objectFit="cover"
-                    objectPosition="center"
-                    loading="lazy"
-                  />
+          {MockProducts.map(
+            ({ product_id, p_name, p_price, thunbnail_url }) => (
+              <li key={product_id}>
+                <Link href={`/products/${product_id}`}>
+                  <div css={imageWrapper}>
+                    <Image
+                      src={thunbnail_url}
+                      alt="product"
+                      layout="fill"
+                      objectFit="cover"
+                      objectPosition="center"
+                      loading="lazy"
+                    />
+                  </div>
+                </Link>
+                <div tw="text-center text-primary3 my-4">
+                  <p tw="my-2 text-xl">{p_name}</p>
+                  <p>{p_price}</p>
                 </div>
-              </Link>
-              <div tw="text-center text-primary3 my-4">
-                <p tw="my-2 text-xl">{p_name}</p>
-                <p>{p_price}</p>
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          )}
         </ul>
       </div>
     </>
