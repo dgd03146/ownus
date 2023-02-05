@@ -1,46 +1,32 @@
 import tw, { css } from 'twin.macro';
-import Header from '@components/common/auth/header';
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import background from '/public/images/background4.jpg';
+import background from '/public/images/background3.jpg';
 import Link from 'next/link';
+import Header from '@components/common/auth/header';
 import { FormInput } from '@components/common/input/formInput';
+import { EmailInput, PasswordInput } from '@lib/constants/auth';
+import { useLogin } from 'queries/hooks/auth/useLogin';
 import WithAuth from '@components/hoc/withAuth';
-import { Signup } from 'types/user';
-import {
-  EmailInput,
-  PasswordInput,
-  UsernameInput,
-  PasswordConfirmInput
-} from '@lib/constants/auth';
-import { useSignup } from 'queries/hooks/auth/useSignUp';
+import { Login } from 'types/user';
+// TODO: 폴더 절대경로 설정하기
 
-const SignUp = () => {
-  const onSignup = useSignup();
+// TODO: 이미지 등 겹치는 컴포넌트 공통으로 만들기?
+
+const Login = () => {
+  const onLogin = useLogin();
 
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors, isSubmitting }
-  } = useForm<Signup>();
+  } = useForm<Login>();
 
-  const passwordConfirmRules = {
-    ...PasswordConfirmInput.rules,
-    validate: {
-      matchPassword: (value: string) => {
-        const { password } = getValues();
-        return password === value || '비밀번호가 일치하지 않습니다.';
-      }
-    }
-  };
-
-  const onSubmit = async (formData: Signup) => {
-    await new Promise((r) => setTimeout(r, 1000));
-    const { username, email, password } = formData;
-    onSignup({ username, email, password });
-    alert(JSON.stringify(formData));
+  const onSubmit = async (formData: Login) => {
+    await new Promise((r) => setTimeout(r, 1000)); // 버튼 중복으로 누르는거 방지
+    const { email, password } = formData;
+    onLogin({ email, password });
   };
 
   return (
@@ -53,18 +39,8 @@ const SignUp = () => {
         <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
           <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
-            <h2>이메일로 가입하기</h2>
-            <FormInput<Signup>
-              id={UsernameInput.id}
-              type={UsernameInput.type}
-              name={'username'}
-              label={UsernameInput.label}
-              placeholder={UsernameInput.placeholder}
-              register={register}
-              rules={UsernameInput.rules}
-              errors={errors}
-            />
-            <FormInput<Signup>
+            <h2>이메일로 로그인</h2>
+            <FormInput<Login>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -74,7 +50,7 @@ const SignUp = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<Signup>
+            <FormInput<Login>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}
@@ -84,16 +60,6 @@ const SignUp = () => {
               rules={PasswordInput.rules}
               errors={errors}
             />
-            <FormInput<Signup>
-              id={PasswordConfirmInput.id}
-              type={PasswordConfirmInput.type}
-              name={'passwordConfirm'}
-              label={PasswordConfirmInput.label}
-              placeholder={PasswordConfirmInput.placeholder}
-              register={register}
-              rules={passwordConfirmRules}
-              errors={errors}
-            />
             <button
               css={[
                 tw`bg-primary3 my-2 text-white1 text-lg py-2 mt-6 hover:bg-primary2`
@@ -101,12 +67,12 @@ const SignUp = () => {
               type="submit"
               disabled={isSubmitting}
             >
-              가입하기
+              로그인
             </button>
             <div>
-              <p css={tw`text-sm mt-10 mb-2`}>이미 계정이 있으신가요?</p>
+              <p css={tw`text-sm mt-10 mb-2`}>아직 계정이 없으신가요?</p>
               <p css={tw`text-blue underline`}>
-                <Link href={'/signin'}>로그인</Link>
+                <Link href={'/signup'}>회원가입</Link>
               </p>
             </div>
           </form>
@@ -125,20 +91,24 @@ const SignUp = () => {
   );
 };
 
-export default WithAuth(SignUp);
+export default WithAuth(Login);
 
 const formStyle = css`
-  ${tw`flex flex-col mt-16 py-10 w-96`},
+  ${tw`flex flex-col mt-20 py-10 mobile:w-96`},
+
   input {
     border: solid 1px #ececec;
     outline: none;
     padding: 0.75rem 0.5rem;
     font-size: 0.9rem;
+    margin-bottom: 0.5rem;
   }
+
   label {
     font-size: 1rem;
+    margin-bottom: 0.5rem;
   }
   h2 {
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
   }
 `;
