@@ -3,12 +3,12 @@ export type User = {
   profileImg: string;
 };
 
-export type Login = {
+export type LoginData = {
   email: string;
   password: string;
 };
 
-export type Signup = Login & {
+export type SignupData = LoginData & {
   username: string;
   passwordConfirm?: string;
 };

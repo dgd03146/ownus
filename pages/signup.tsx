@@ -7,14 +7,14 @@ import background from '/public/images/background4.jpg';
 import Link from 'next/link';
 import { FormInput } from '@components/common/input/formInput';
 import WithAuth from '@components/hoc/withAuth';
-import { Signup } from 'types/user';
+import { SignupData } from 'types/user';
 import {
   EmailInput,
   PasswordInput,
   UsernameInput,
   PasswordConfirmInput
 } from '@lib/constants/auth';
-import { useSignup } from 'queries/hooks/auth/useSignUp';
+import { useSignup } from 'queries/hooks/auth/useSignup';
 
 const SignUp = () => {
   const onSignup = useSignup();
@@ -24,7 +24,7 @@ const SignUp = () => {
     handleSubmit,
     getValues,
     formState: { errors, isSubmitting }
-  } = useForm<Signup>();
+  } = useForm<SignupData>();
 
   const passwordConfirmRules = {
     ...PasswordConfirmInput.rules,
@@ -36,13 +36,14 @@ const SignUp = () => {
     }
   };
 
-  const onSubmit = async (formData: Signup) => {
+  const onSubmit = async (formData: SignupData) => {
     await new Promise((r) => setTimeout(r, 1000));
     const { username, email, password } = formData;
     onSignup({ username, email, password });
     alert(JSON.stringify(formData));
   };
 
+  // FIXME: css={} 다 tw=""로 바꾸기!
   return (
     <div css={[tw`flex`]}>
       <div
@@ -54,7 +55,7 @@ const SignUp = () => {
           <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 가입하기</h2>
-            <FormInput<Signup>
+            <FormInput<SignupData>
               id={UsernameInput.id}
               type={UsernameInput.type}
               name={'username'}
@@ -64,7 +65,7 @@ const SignUp = () => {
               rules={UsernameInput.rules}
               errors={errors}
             />
-            <FormInput<Signup>
+            <FormInput<SignupData>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -74,7 +75,7 @@ const SignUp = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<Signup>
+            <FormInput<SignupData>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}
@@ -84,7 +85,7 @@ const SignUp = () => {
               rules={PasswordInput.rules}
               errors={errors}
             />
-            <FormInput<Signup>
+            <FormInput<SignupData>
               id={PasswordConfirmInput.id}
               type={PasswordConfirmInput.type}
               name={'passwordConfirm'}
@@ -106,7 +107,7 @@ const SignUp = () => {
             <div>
               <p css={tw`text-sm mt-10 mb-2`}>이미 계정이 있으신가요?</p>
               <p css={tw`text-blue underline`}>
-                <Link href={'/signin'}>로그인</Link>
+                <Link href={'/login'}>로그인</Link>
               </p>
             </div>
           </form>
@@ -119,6 +120,7 @@ const SignUp = () => {
           layout="fill"
           objectFit="cover"
           objectPosition="bottom"
+          loading="lazy"
         />
       </div>
     </div>

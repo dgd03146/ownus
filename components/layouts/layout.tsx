@@ -16,7 +16,8 @@ interface LayoutProps extends PropsWithChildren {
 const Layout = ({ children, title }: LayoutProps) => {
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
-  const isAuthPage = pathname === '/login' || '/signup';
+  const isAuthPage = ['/login', '/signup'].some((path) => path === pathname);
+  const isProductPage = pathname.startsWith('/products');
   return (
     <>
       {/* TODO: title 각 페이지마다 동적으로 할 수 있게 수정해야할듯? */}
@@ -27,19 +28,26 @@ const Layout = ({ children, title }: LayoutProps) => {
         <div tw="z-10 w-full h-full absolute flex">
           <div tw="w-full">
             {!isAuthPage && (
-              <header>
-                <Header />
-              </header>
+              <>
+                <header>
+                  <Header />
+                </header>
+                <Image
+                  tw="block mobile:hidden"
+                  src={background}
+                  alt="background"
+                  // layout="fill"
+                  objectFit="cover"
+                  objectPosition="top"
+                />
+              </>
             )}
-            {!isAuthPage && (
-              <Image
-                tw="block mobile:hidden"
-                src={background}
-                alt="background"
-                // layout="fill"
-                objectFit="cover"
-                objectPosition="top"
-              />
+            {isProductPage && (
+              <div tw="bg-primary1 py-6">
+                <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-0 mx-auto text-primary3 text-2xl">
+                  Shop
+                </div>
+              </div>
             )}
             <main>{children}</main>
           </div>

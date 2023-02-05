@@ -9,7 +9,7 @@ import { FormInput } from '@components/common/input/formInput';
 import { EmailInput, PasswordInput } from '@lib/constants/auth';
 import { useLogin } from 'queries/hooks/auth/useLogin';
 import WithAuth from '@components/hoc/withAuth';
-import { Login } from 'types/user';
+import { LoginData } from 'types/user';
 // TODO: 폴더 절대경로 설정하기
 
 // TODO: 이미지 등 겹치는 컴포넌트 공통으로 만들기?
@@ -21,9 +21,9 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<Login>();
+  } = useForm<LoginData>();
 
-  const onSubmit = async (formData: Login) => {
+  const onSubmit = async (formData: LoginData) => {
     await new Promise((r) => setTimeout(r, 1000)); // 버튼 중복으로 누르는거 방지
     const { email, password } = formData;
     onLogin({ email, password });
@@ -40,7 +40,7 @@ const Login = () => {
           <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 로그인</h2>
-            <FormInput<Login>
+            <FormInput<LoginData>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -50,7 +50,7 @@ const Login = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<Login>
+            <FormInput<LoginData>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}
@@ -85,6 +85,7 @@ const Login = () => {
           layout="fill"
           objectFit="cover"
           objectPosition="bottom"
+          loading="lazy"
         />
       </div>
     </div>
