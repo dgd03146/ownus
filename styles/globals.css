@@ -12,6 +12,13 @@
   h3 {
     @apply text-xl;
   }
+  input {
+    outline: none;
+  }
+
+  select {
+    outline: none;
+  }
 
   html {
     font-family: 'Pretendard', ui-sans-serif, system-ui, -apple-system,
