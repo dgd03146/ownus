@@ -9,6 +9,6 @@ export const EndPoint = {
 
 export const UserEndPoint = {
   login: 'users/login',
-  signUp: 'users/signup',
+  signup: 'users/signup',
   user: 'users/info'
 };

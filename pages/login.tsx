@@ -7,15 +7,12 @@ import Link from 'next/link';
 import Header from '@components/common/auth/header';
 import { FormInput } from '@components/common/input/formInput';
 import { EmailInput, PasswordInput } from '@lib/constants/auth';
-import { useLogin } from 'queries/hooks/useLogin';
+import { useLogin } from 'queries/hooks/auth/useLogin';
 import WithAuth from '@components/hoc/withAuth';
+import { Login } from 'types/user';
 // TODO: 폴더 절대경로 설정하기
 
 // TODO: 이미지 등 겹치는 컴포넌트 공통으로 만들기?
-export type LoginFormInputs = {
-  email: string;
-  password: string;
-};
 
 const Login = () => {
   const onLogin = useLogin();
@@ -24,9 +21,9 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<LoginFormInputs>();
+  } = useForm<Login>();
 
-  const onSubmit = async (formData: LoginFormInputs) => {
+  const onSubmit = async (formData: Login) => {
     await new Promise((r) => setTimeout(r, 1000)); // 버튼 중복으로 누르는거 방지
     const { email, password } = formData;
     onLogin({ email, password });
@@ -43,7 +40,7 @@ const Login = () => {
           <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 로그인</h2>
-            <FormInput<LoginFormInputs>
+            <FormInput<Login>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -53,7 +50,7 @@ const Login = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<LoginFormInputs>
+            <FormInput<Login>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}

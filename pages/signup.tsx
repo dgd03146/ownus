@@ -6,27 +6,25 @@ import { useForm } from 'react-hook-form';
 import background from '/public/images/background4.jpg';
 import Link from 'next/link';
 import { FormInput } from '@components/common/input/formInput';
-import { LoginFormInputs } from './login';
 import WithAuth from '@components/hoc/withAuth';
+import { Signup } from 'types/user';
 import {
   EmailInput,
   PasswordInput,
   UsernameInput,
   PasswordConfirmInput
 } from '@lib/constants/auth';
-
-type SignUpFormInputs = LoginFormInputs & {
-  username: string;
-  passwordConfirm: string;
-};
+import { useSignup } from 'queries/hooks/auth/useSignUp';
 
 const SignUp = () => {
+  const onSignup = useSignup();
+
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors, isSubmitting }
-  } = useForm<SignUpFormInputs>();
+  } = useForm<Signup>();
 
   const passwordConfirmRules = {
     ...PasswordConfirmInput.rules,
@@ -38,10 +36,10 @@ const SignUp = () => {
     }
   };
 
-  // FIXME: data 타입 바꾸기
-  const onSubmit = async (formData: SignUpFormInputs) => {
+  const onSubmit = async (formData: Signup) => {
     await new Promise((r) => setTimeout(r, 1000));
     const { username, email, password } = formData;
+    onSignup({ username, email, password });
     alert(JSON.stringify(formData));
   };
 
@@ -56,7 +54,7 @@ const SignUp = () => {
           <Header />
           <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 가입하기</h2>
-            <FormInput<SignUpFormInputs>
+            <FormInput<Signup>
               id={UsernameInput.id}
               type={UsernameInput.type}
               name={'username'}
@@ -66,7 +64,7 @@ const SignUp = () => {
               rules={UsernameInput.rules}
               errors={errors}
             />
-            <FormInput<SignUpFormInputs>
+            <FormInput<Signup>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -76,7 +74,7 @@ const SignUp = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<SignUpFormInputs>
+            <FormInput<Signup>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}
@@ -86,7 +84,7 @@ const SignUp = () => {
               rules={PasswordInput.rules}
               errors={errors}
             />
-            <FormInput<SignUpFormInputs>
+            <FormInput<Signup>
               id={PasswordConfirmInput.id}
               type={PasswordConfirmInput.type}
               name={'passwordConfirm'}

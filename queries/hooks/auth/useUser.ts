@@ -1,10 +1,9 @@
 // import { userService } from './../../lib/api/instance';
 
-import { queryKeys } from '../keys';
-import { queryClient } from '../queryClient';
+import { queryKeys } from '../../keys';
+import { queryClient } from '../../queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { authService } from '@lib/api/instance';
-import { LoginRequest } from 'types/user';
 import { useRouter } from 'next/router';
 import { User } from 'types/user';
 

@@ -1,4 +1,4 @@
-import { useUser } from 'queries/hooks/useUser';
+import { useUser } from 'queries/hooks/auth/useUser';
 import { ComponentType, useEffect } from 'react';
 import { useRouter } from 'next/router';
 

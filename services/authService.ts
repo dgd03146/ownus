@@ -2,7 +2,7 @@ import { HttpClientService } from '../lib/api/httpClient';
 import { UserEndPoint } from '@lib/constants/endpoint';
 import { TokenService } from './tokenService';
 import { AxiosResponse } from 'axios';
-import { useUser } from 'queries/hooks/useUser';
+import { useUser } from 'queries/hooks/auth/useUser';
 
 type AuthResponse = {
   nickname: string;
@@ -29,8 +29,12 @@ export class AuthService {
     return res;
   }
 
-  async signUp(email: string, password: string): Promise<any> {
-    return await this.httpClient.instance.get(UserEndPoint.signUp);
+  async signup(
+    username: string,
+    email: string,
+    password: string
+  ): Promise<any> {
+    return await this.httpClient.instance.get(UserEndPoint.signup);
   }
 
   async getUser() {
