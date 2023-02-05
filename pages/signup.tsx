@@ -7,6 +7,7 @@ import background from '/public/images/background4.jpg';
 import Link from 'next/link';
 import { FormInput } from '@components/common/input/formInput';
 import { LoginFormInputs } from './login';
+import WithAuth from '@components/hoc/withAuth';
 import {
   EmailInput,
   PasswordInput,
@@ -37,10 +38,11 @@ const SignUp = () => {
     }
   };
 
-  const onSubmit = async (data: any) => {
+  // FIXME: data 타입 바꾸기
+  const onSubmit = async (formData: SignUpFormInputs) => {
     await new Promise((r) => setTimeout(r, 1000));
-    console.log(data, 'data임');
-    alert(JSON.stringify(data));
+    const { username, email, password } = formData;
+    alert(JSON.stringify(formData));
   };
 
   return (
@@ -125,7 +127,7 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default WithAuth(SignUp);
 
 const formStyle = css`
   ${tw`flex flex-col mt-16 py-10 w-96`},

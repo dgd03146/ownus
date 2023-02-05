@@ -2,12 +2,14 @@ import { HttpClientService } from '../lib/api/httpClient';
 import { UserEndPoint } from '@lib/constants/endpoint';
 import { TokenService } from './tokenService';
 import { AxiosResponse } from 'axios';
+import { useUser } from 'queries/hooks/useUser';
 
 type AuthResponse = {
   nickname: string;
   profileImg: string;
   accessToken: string;
 };
+const { clearUser } = useUser();
 
 export class AuthService {
   private httpClient: HttpClientService;
@@ -31,7 +33,14 @@ export class AuthService {
     return await this.httpClient.instance.get(UserEndPoint.signUp);
   }
 
+  async getUser() {
+    return await this.httpClient.instance.get(UserEndPoint.user);
+  }
+
   logout() {
     this.tokenRepository.removeToken();
+    clearUser();
+    // FIXME: 로그아웃
+    alert('로그아웃되엇습니다');
   }
 }

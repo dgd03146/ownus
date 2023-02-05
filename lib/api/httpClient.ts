@@ -10,7 +10,7 @@ import { TokenService } from '../../services/tokenService';
 
 interface IFailedRequestQueue {
   onSuccess: (token: string) => void;
-  // FIXME: AXIOS Error로?
+  // FIXME: error 타입 AXIOS Error로?
   onFailure: (error: unknown) => void;
 }
 
@@ -55,6 +55,7 @@ export class HttpClientService {
       this.failedRequestQueue = [];
     } catch (error) {
       this.failedRequestQueue.forEach((request) => request.onFailure(error));
+
       this.failedRequestQueue = [];
       this.tokenRepository.removeToken();
     } finally {
@@ -76,14 +77,17 @@ export class HttpClientService {
     return data;
   }
 
-  protected async handleResponseError(error: AxiosError) {
+  private async handleResponseError(error: AxiosError) {
     const { status, message, config } = error;
     if (status === 401) {
-      if (message === 'token expired' && !this.isTokenRefreshing) {
-        // isTokenRefreshing이 false인 경우에만 token refresh 요청
+      if (
+        message === 'token expired' ||
+        (message === 'no authorization' && !this.isTokenRefreshing)
+      ) {
+        // 토큰이 만료되었거나 페이지를 새로고침해서 accessToken이 없어지는 경우 isTokenRefreshing이 false인 경우에만 token refresh 요청
         const originalConfig = config!; // 원래의 요청
         // token expired 메세지가 나타날 경우
-        const refreshToken = this.tokenRepository.getRefreshToken();
+        const refreshToken = await this.tokenRepository.getRefreshToken();
 
         !this.isTokenRefreshing && this.handleRefreshToken(refreshToken);
 
