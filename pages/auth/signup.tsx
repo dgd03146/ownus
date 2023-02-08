@@ -7,7 +7,7 @@ import background from '/public/images/background4.jpg';
 import Link from 'next/link';
 import { FormInput } from '@components/common/input/formInput';
 import WithAuth from '@components/hoc/withAuth';
-import { SignupData } from 'types/user';
+import { TSignup } from 'types/user';
 import {
   EmailInput,
   PasswordInput,
@@ -15,7 +15,7 @@ import {
   PasswordConfirmInput
 } from '@lib/constants/auth';
 import { useSignup } from 'queries/hooks/auth/useSignup';
-
+import { Button, Form } from './styles';
 const SignUp = () => {
   const onSignup = useSignup();
 
@@ -24,7 +24,7 @@ const SignUp = () => {
     handleSubmit,
     getValues,
     formState: { errors, isSubmitting }
-  } = useForm<SignupData>();
+  } = useForm<TSignup>();
 
   const passwordConfirmRules = {
     ...PasswordConfirmInput.rules,
@@ -36,26 +36,21 @@ const SignUp = () => {
     }
   };
 
-  const onSubmit = async (formData: SignupData) => {
+  const onSubmit = async (formData: TSignup) => {
     await new Promise((r) => setTimeout(r, 1000));
     const { username, email, password } = formData;
     onSignup({ username, email, password });
     alert(JSON.stringify(formData));
   };
 
-  // FIXME: css={} 다 tw=""로 바꾸기!
   return (
-    <div css={[tw`flex`]}>
-      <div
-        css={[
-          tw`flex mobile:flex-col mobile:items-center desktop:items-end desktop:w-1/2 h-screen w-full mobile:px-28`
-        ]}
-      >
+    <div tw="flex">
+      <div tw="flex mobile:flex-col mobile:items-center desktop:items-end desktop:w-1/2 h-screen w-full mobile:px-28">
         <div tw="w-full px-10 mobile:px-0 mobile:w-auto">
           <Header />
-          <form css={formStyle} onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <h2>이메일로 가입하기</h2>
-            <FormInput<SignupData>
+            <FormInput<TSignup>
               id={UsernameInput.id}
               type={UsernameInput.type}
               name={'username'}
@@ -65,7 +60,7 @@ const SignUp = () => {
               rules={UsernameInput.rules}
               errors={errors}
             />
-            <FormInput<SignupData>
+            <FormInput<TSignup>
               id={EmailInput.id}
               type={EmailInput.type}
               name={'email'}
@@ -75,7 +70,7 @@ const SignUp = () => {
               rules={EmailInput.rules}
               errors={errors}
             />
-            <FormInput<SignupData>
+            <FormInput<TSignup>
               id={PasswordInput.id}
               type={PasswordInput.type}
               name={'password'}
@@ -85,7 +80,7 @@ const SignUp = () => {
               rules={PasswordInput.rules}
               errors={errors}
             />
-            <FormInput<SignupData>
+            <FormInput<TSignup>
               id={PasswordConfirmInput.id}
               type={PasswordConfirmInput.type}
               name={'passwordConfirm'}
@@ -95,25 +90,19 @@ const SignUp = () => {
               rules={passwordConfirmRules}
               errors={errors}
             />
-            <button
-              css={[
-                tw`bg-primary3 my-2 text-white1 text-lg py-2 mt-6 hover:bg-primary2`
-              ]}
-              type="submit"
-              disabled={isSubmitting}
-            >
+            <Button type="submit" disabled={isSubmitting}>
               가입하기
-            </button>
+            </Button>
             <div>
-              <p css={tw`text-sm mt-10 mb-2`}>이미 계정이 있으신가요?</p>
-              <p css={tw`text-blue underline`}>
-                <Link href={'/login'}>로그인</Link>
+              <p tw="text-sm mt-10 mb-2">이미 계정이 있으신가요?</p>
+              <p tw="text-blue underline">
+                <Link href={'auth/login'}>로그인</Link>
               </p>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
-      <div css={tw`w-1/2 h-screen relative hidden desktop:block`}>
+      <div tw="w-1/2 h-screen relative hidden desktop:block">
         <Image
           src={background}
           alt="background"
@@ -128,19 +117,3 @@ const SignUp = () => {
 };
 
 export default WithAuth(SignUp);
-
-const formStyle = css`
-  ${tw`flex flex-col mt-16 py-10 w-96`},
-  input {
-    border: solid 1px #ececec;
-    outline: none;
-    padding: 0.75rem 0.5rem;
-    font-size: 0.9rem;
-  }
-  label {
-    font-size: 1rem;
-  }
-  h2 {
-    margin-bottom: 3rem;
-  }
-`;

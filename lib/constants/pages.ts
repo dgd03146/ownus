@@ -1,5 +1,5 @@
 export const Pages = [
-  { href: '/about', title: 'ABOUT US' },
-  { href: '/products', title: 'SHOP' },
-  { href: '/contacts', title: 'CONTACTS' }
+  { href: '/about', title: 'Blog' },
+  { href: '/products', title: 'Shop' },
+  { href: '/contacts', title: 'Contact' }
 ];

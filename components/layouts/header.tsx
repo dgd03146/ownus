@@ -17,13 +17,9 @@ const Header = () => {
   };
 
   return (
-    <header
-      css={[
-        tw`relative py-3 mobile:py-5 px-8 flex justify-between items-center w-full font-semibold text-primary5 bg-white1 mobile:bg-opacity-0`
-      ]}
-    >
+    <header tw="relative py-3 mobile:py-4 px-8 flex justify-between items-center w-full font-semibold text-primary3 bg-white1 mobile:bg-opacity-0">
       <div>
-        <Link tw="text-2xl mobile:text-3xl font-Cinzel" href={'/'}>
+        <Link tw="text-xl mobile:text-2xl font-Cinzel" href={'/'}>
           OWNUS
         </Link>
       </div>
@@ -35,7 +31,7 @@ const Header = () => {
       >
         {Pages.map((page) => (
           <li
-            tw="flex justify-between py-2 mobile:py-0 text-primary3 font-Cinzel"
+            tw="flex justify-between py-2 mobile:py-0 text-primary3"
             key={page.href}
           >
             <Link className="group" tw="text-base relative" href={page.href}>
@@ -48,7 +44,7 @@ const Header = () => {
           </li>
         ))}
       </ul>
-      <div css={[tw`hidden mobile:flex items-center gap-x-6`]}>
+      <div tw="hidden mobile:flex items-center gap-x-6">
         <Link href={'/'}>
           <BsBag tw="text-xl cursor-pointer" />
         </Link>

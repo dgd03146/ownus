@@ -3,13 +3,13 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { queryKeys } from 'queries/keys';
 import { queryClient } from 'queries/queryClient';
-import { SignupData } from 'types/user';
+import { TSignup } from 'types/user';
 
 export const useSignup = () => {
   const router = useRouter();
 
   const { mutate: onSignUp } = useMutation(
-    ({ username, email, password }: SignupData) =>
+    ({ username, email, password }: TSignup) =>
       authService.signup(username, email, password),
     {
       onSuccess() {
