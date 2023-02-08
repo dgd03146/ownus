@@ -7,7 +7,49 @@ import { HiPlus } from 'react-icons/hi';
 import { HiMinus } from 'react-icons/hi';
 import Link from 'next/link';
 import { getRelatedProducts } from 'utils/relatedProducts';
-import { TProduct } from 'types/products';
+import { TProduct, TProducts } from 'types/products';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { productService } from '@lib/api/instance';
+import { QueryClient } from '@tanstack/react-query';
+import { queryKeys } from 'queries/keys';
+import { ParsedUrlQuery } from 'querystring';
+
+interface ProductPageParams extends ParsedUrlQuery {
+  product_id: string;
+}
+
+type ProductPageProps = {
+  product: TProduct;
+};
+
+export const getStaticPaths: GetStaticPaths<ProductPageParams> = async () => {
+  const queryClient = new QueryClient();
+  const products = queryClient.getQueryData<TProduct[]>([queryKeys.products])!;
+
+  return {
+    paths: products.map(({ product_id }) => ({
+      params: { product_id: product_id.toString() }
+    })),
+    fallback: 'blocking'
+  };
+};
+
+export const getStaticProps: GetStaticProps<
+  ProductPageProps,
+  ProductPageParams
+> = async ({ params }) => {
+  const { product_id } = params!;
+  try {
+    const product = await productService.getProduct(product_id);
+    return {
+      props: { product },
+      revalidate: parseInt(process.env.REVALIDATE_SECONDS!)
+    };
+  } catch (err) {
+    return { notFound: true };
+  }
+};
+
 const Product = () => {
   const { p_name, p_info, p_price, p_images, thunbnail_url } = MockProduct;
   const [quantity, setQuantity] = useState(1);
