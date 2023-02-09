@@ -9,6 +9,7 @@ import React from 'react';
 import tw, { css } from 'twin.macro';
 import { TProducts } from 'types/products';
 import { FaHeart } from 'react-icons/fa';
+import { ProductsFilter } from '@lib/constants/constant';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
@@ -38,24 +39,20 @@ const Products = () => {
 
   return (
     <>
-      <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-8 mx-auto">
-        <div tw="flex justify-end">
-          <select tw="font-semibold text-primary6" value={'최신순'}>
-            <option value="popular">인기순</option>
-            <option value="popular">리뷰순</option>
-          </select>
-        </div>
-        <ul tw="grid py-8 gap-x-8 gap-y-12 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 ">
+      <div tw="my-24 mx-auto">
+        <ul tw="flex justify-center pt-12 gap-x-8 pb-16 px-[50px] text-[13px] text-primary3 font-semibold text-opacity-60">
+          {ProductsFilter.map((it) => (
+            <li className="group" tw="relative cursor-pointer" key={it.title}>
+              <p>{it.title}</p>
+              <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-90 transition-transform duration-500" />
+            </li>
+          ))}
+        </ul>
+        <ul tw="grid py-8 tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-3">
           {/* FIXME: products 데이터로 수정 */}
           {MockProducts.map(
             ({ product_id, p_name, p_price, thunbnail_url }) => (
-              <li key={product_id}>
-                <div tw="mb-4 flex justify-between items-center">
-                  <span tw="bg-primary6 px-1 text-white1 text-sm font-Playfair">
-                    NEW
-                  </span>
-                  <FaHeart tw="cursor-pointer text-[18px]" />
-                </div>
+              <li tw="px-[50px] mb-[50px]" key={product_id}>
                 <Link href={`/products/${product_id}`}>
                   <div css={imageWrapper}>
                     <Image
@@ -67,16 +64,20 @@ const Products = () => {
                       loading="lazy"
                     />
                   </div>
+                  <div tw="my-2 text-center font-GowunDodam">
+                    <p tw="text-primary3 font-semibold text-opacity-70 text-[14px]">
+                      {p_name}
+                    </p>
+                    <p tw="text-primary3 font-extrabold text-[15px]">
+                      {p_price}원
+                    </p>
+                  </div>
                 </Link>
-                <div tw="mt-2">
-                  <p tw="text-sm text-gray2 mb-[2px]">카테고리</p>
-                  <h3 tw="text-[18px] font-semibold mb-[2px]">{p_name}</h3>
-                  <p>{p_price}원</p>
-                </div>
               </li>
             )
           )}
         </ul>
+
         <div tw="flex justify-center my-28">
           <ul tw="flex gap-x-12 text-primary3">
             <li>1</li>
@@ -94,7 +95,7 @@ const Products = () => {
 export default Products;
 
 const imageWrapper = css`
-  ${tw`relative w-full mobile:h-[450px] tablet:h-[300px] overflow-hidden`}
+  ${tw`relative w-full mobile:h-[350px] tablet:h-[466px] overflow-hidden`}
 
   img {
     -webkit-transform: scale(1);

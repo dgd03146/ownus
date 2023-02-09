@@ -30,7 +30,7 @@ const Layout = ({ children, title }: LayoutProps) => {
           <div tw="w-full">
             {!isAuthPage && (
               <>
-                <header>
+                <header tw="mb-[92px]">
                   <Header />
                 </header>
                 <Image
@@ -43,15 +43,8 @@ const Layout = ({ children, title }: LayoutProps) => {
                 />
               </>
             )}
-            {isProductPage && (
-              <div tw="bg-primary1 py-8">
-                <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-0 mx-auto text-primary3 text-xl text-center font-Cinzel  font-semibold">
-                  Shop
-                </div>
-              </div>
-            )}
-            <main>{children}</main>
-            {!isHomePage && !isAuthPage && <Footer />}
+            <main tw="max-w-[1280px] mx-auto my-0">{children}</main>
+            {!isAuthPage && !isHomePage && <Footer />}
           </div>
         </div>
         {isHomePage && (
@@ -65,6 +58,7 @@ const Layout = ({ children, title }: LayoutProps) => {
           />
         )}
       </div>
+      {isHomePage && <Footer />}
     </>
   );
 };

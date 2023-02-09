@@ -13,6 +13,7 @@ module.exports = {
       primary4: '#ff8fab',
       primary5: '#fb6f92',
       primary6: '#FF8BA0',
+      primary7: '#D80065',
 
       blue: '#458ff7',
       white1: '#ffffff',
@@ -23,7 +24,10 @@ module.exports = {
     },
     fontFamily: {
       Cinzel: ['Cinzel', 'serif'],
-      Playfair: ['Playfair Display', 'serif']
+      Playfair: ['Playfair Display', 'serif'],
+      Quicksand: ['Quicksand', 'serif'],
+      Poppins: ['Poppins', 'serif'],
+      GowunDodam: ['Gowun Dodum', 'sans-serif']
     },
     screens: {
       mobile: '480px',
