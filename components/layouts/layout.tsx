@@ -5,6 +5,7 @@ import Header from './header';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
+import Footer from './footer';
 // import SideBar from './sidebar';
 
 interface LayoutProps extends PropsWithChildren {
@@ -16,7 +17,7 @@ interface LayoutProps extends PropsWithChildren {
 const Layout = ({ children, title }: LayoutProps) => {
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
-  const isAuthPage = ['/login', '/signup'].some((path) => path === pathname);
+  const isAuthPage = pathname.startsWith('/auth');
   const isProductPage = pathname.startsWith('/products');
   return (
     <>
@@ -29,7 +30,7 @@ const Layout = ({ children, title }: LayoutProps) => {
           <div tw="w-full">
             {!isAuthPage && (
               <>
-                <header>
+                <header tw="mb-[92px]">
                   <Header />
                 </header>
                 <Image
@@ -42,14 +43,8 @@ const Layout = ({ children, title }: LayoutProps) => {
                 />
               </>
             )}
-            {isProductPage && (
-              <div tw="bg-primary1 py-6">
-                <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-0 mx-auto text-primary3 text-2xl">
-                  Shop
-                </div>
-              </div>
-            )}
-            <main>{children}</main>
+            <main tw="max-w-[1280px] mx-auto my-0">{children}</main>
+            {!isAuthPage && !isHomePage && <Footer />}
           </div>
         </div>
         {isHomePage && (
@@ -63,6 +58,7 @@ const Layout = ({ children, title }: LayoutProps) => {
           />
         )}
       </div>
+      {isHomePage && <Footer />}
     </>
   );
 };

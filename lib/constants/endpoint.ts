@@ -13,5 +13,6 @@ export const UsersEndPoint = {
 };
 
 export const ProductsEndPoint = {
-  products: 'products'
+  products: 'products',
+  product: 'product'
 };

@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import { queryKeys } from 'queries/keys';
 import { queryClient } from 'queries/queryClient';
 import React from 'react';
-import { LoginData } from 'types/user';
+import { TLogin } from 'types/user';
 
 export const useLogin = () => {
   const router = useRouter();
 
   const { mutate: onLogin } = useMutation(
-    ({ email, password }: LoginData) => authService.login(email, password),
+    ({ email, password }: TLogin) => authService.login(email, password),
     {
       onSuccess(userData) {
         queryClient.setQueryData([queryKeys.user], userData);

@@ -1,14 +1,14 @@
-export type User = {
+export type TUser = {
   nickname: string;
   profileImg: string;
 };
 
-export type LoginData = {
+export type TLogin = {
   email: string;
   password: string;
 };
 
-export type SignupData = LoginData & {
+export type TSignup = TLogin & {
   username: string;
   passwordConfirm?: string;
 };

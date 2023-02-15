@@ -1,11 +1,11 @@
 import { tokenRepository } from '../../../lib/api/instance';
 import { authService } from '@lib/api/instance';
 import { NextApiHandler } from 'next';
-import { User } from 'types/user';
+import { TUser } from 'types/user';
 
 const COOKIE_EXPIRATION_TIME = 3600;
 
-const handleLogin: NextApiHandler<User> = async (req, res) => {
+const handleLogin: NextApiHandler<TUser> = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).end();
     return;
