@@ -1,3 +1,5 @@
+import { TProduct } from './../types/products';
+import { ProductsEndPoint } from './../lib/constants/endpoint';
 import { HttpClientService } from '../lib/api/httpClient';
 
 export class ProductService {
@@ -7,8 +9,13 @@ export class ProductService {
     this.httpClient = httpClient;
   }
 
-  async getAllProducts() {
-    // TODO: 약간 요런느낌?
-    return await this.httpClient.instance.get('products', { params: '' });
+  async getProducts() {
+    return await this.httpClient.instance.get(ProductsEndPoint.products);
+  }
+
+  async getProduct(productId: string): Promise<TProduct> {
+    return await this.httpClient.instance.get(
+      ProductsEndPoint.products + productId
+    );
   }
 }

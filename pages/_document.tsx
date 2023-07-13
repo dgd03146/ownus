@@ -40,6 +40,22 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
           href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Inter&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
+          rel="stylesheet"
+        ></link>
         <Head>
           <style
             data-emotion-css={this.props?.ids?.join(' ')}
@@ -56,10 +72,3 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
 }
 
 export default CustomDocument;
-
-{
-  /* <link
-href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Inter&display=swap"
-rel="stylesheet"
-/> */
-}

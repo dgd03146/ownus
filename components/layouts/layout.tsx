@@ -5,6 +5,7 @@ import Header from './header';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
+import Footer from './footer';
 // import SideBar from './sidebar';
 
 interface LayoutProps extends PropsWithChildren {
@@ -16,7 +17,8 @@ interface LayoutProps extends PropsWithChildren {
 const Layout = ({ children, title }: LayoutProps) => {
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
-  const isAuthPage = pathname === '/login' || '/signup';
+  const isAuthPage = pathname.startsWith('/auth');
+  const isProductPage = pathname.startsWith('/products');
   return (
     <>
       {/* TODO: title 각 페이지마다 동적으로 할 수 있게 수정해야할듯? */}
@@ -27,21 +29,22 @@ const Layout = ({ children, title }: LayoutProps) => {
         <div tw="z-10 w-full h-full absolute flex">
           <div tw="w-full">
             {!isAuthPage && (
-              <header>
-                <Header />
-              </header>
+              <>
+                <header tw="mb-[92px]">
+                  <Header />
+                </header>
+                <Image
+                  tw="block mobile:hidden"
+                  src={background}
+                  alt="background"
+                  // layout="fill"
+                  objectFit="cover"
+                  objectPosition="top"
+                />
+              </>
             )}
-            {!isAuthPage && (
-              <Image
-                tw="block mobile:hidden"
-                src={background}
-                alt="background"
-                // layout="fill"
-                objectFit="cover"
-                objectPosition="top"
-              />
-            )}
-            <main>{children}</main>
+            <main tw="max-w-[1280px] mx-auto my-0">{children}</main>
+            {!isAuthPage && !isHomePage && <Footer />}
           </div>
         </div>
         {isHomePage && (
@@ -55,6 +58,7 @@ const Layout = ({ children, title }: LayoutProps) => {
           />
         )}
       </div>
+      {isHomePage && <Footer />}
     </>
   );
 };
