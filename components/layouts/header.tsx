@@ -40,7 +40,7 @@ const Header = () => {
   return (
     <header
       css={[
-        tw`z-1 fixed py-[30px] px-[60px] flex items-center w-full text-primary3`,
+        tw`z-[1] fixed py-[30px] px-[60px] flex items-center w-full text-primary3`,
         !isHomePage && isScroll && tw`bg-primary1 py-2`
       ]}
     >
