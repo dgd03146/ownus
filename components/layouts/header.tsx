@@ -1,15 +1,13 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { TbUserCircle } from 'react-icons/tb';
-import { BsBag } from 'react-icons/bs';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Pages } from '@lib/constants/constant';
-import tw, { css } from 'twin.macro';
+import tw from 'twin.macro';
 import { useRouter } from 'next/router';
 import { login, logout, onUserStateChange } from '@services/api/firebase';
-import { User } from 'firebase/auth';
+import UserInfo from '@components/user';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
 
@@ -18,20 +16,10 @@ const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
-  const [user, setUser] = useState<User | null>();
-
-  const handleLogin = () => {
-    login().then((user) => setUser(user as User));
-  };
-
-  const handleLogout = () => {
-    logout().then(setUser);
-  };
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    onUserStateChange((user: User) => {
-      setUser(user);
-    });
+    onUserStateChange(setUser);
   }, []);
 
   useEffect(() => {
@@ -88,11 +76,12 @@ const Header = () => {
         <Link href={'/'} tw="hover:text-primary4">
           <p>CART</p>
         </Link>
-        <Link href={'/'} tw="hover:text-primary4">
+        {/* <Link href={'/'} tw="hover:text-primary4">
           <p>MY PAGE</p>
-        </Link>
-        {!user && <button onClick={handleLogin}>LOGIN</button>}
-        {user && <button onClick={handleLogout}>LOGOUT</button>}
+        </Link> */}
+        {user && <UserInfo user={user} />}
+        {!user && <button onClick={login}>LOGIN</button>}
+        {user && <button onClick={logout}>LOGOUT</button>}
       </div>
       <button tw="block text-2xl mobile:hidden" onClick={handleTogle}>
         {showMenu ? <AiOutlineClose /> : <AiOutlineMenu />}

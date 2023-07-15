@@ -15,24 +15,16 @@ const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
-export async function login(): Promise<User | void> {
-  return signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const user = result.user;
-      return user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.error(error);
-    });
+export function login() {
+  signInWithPopup(auth, provider).catch((error) => {
+    console.error(error);
+  });
 }
 
 export async function logout() {
-  return signOut(auth).then(() => null);
+  return signOut(auth).catch((error) => {
+    console.error(error);
+  });
 }
 
 export function onUserStateChange(callback: Function) {
