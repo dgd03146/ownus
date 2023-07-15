@@ -8,7 +8,8 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { Pages } from '@lib/constants/constant';
 import tw, { css } from 'twin.macro';
 import { useRouter } from 'next/router';
-import { login } from '@services/api/firebase';
+import { login, logout, onUserStateChange } from '@services/api/firebase';
+import { User } from 'firebase/auth';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
 
@@ -17,6 +18,21 @@ const Header = () => {
   const [isScroll, setIsScroll] = useState(false);
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
+  const [user, setUser] = useState<User | null>();
+
+  const handleLogin = () => {
+    login().then((user) => setUser(user as User));
+  };
+
+  const handleLogout = () => {
+    logout().then(setUser);
+  };
+
+  useEffect(() => {
+    onUserStateChange((user: User) => {
+      setUser(user);
+    });
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,7 +91,8 @@ const Header = () => {
         <Link href={'/'} tw="hover:text-primary4">
           <p>MY PAGE</p>
         </Link>
-        <button onClick={login}>LOGIN</button>
+        {!user && <button onClick={handleLogin}>LOGIN</button>}
+        {user && <button onClick={handleLogout}>LOGOUT</button>}
       </div>
       <button tw="block text-2xl mobile:hidden" onClick={handleTogle}>
         {showMenu ? <AiOutlineClose /> : <AiOutlineMenu />}

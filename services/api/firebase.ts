@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
+import { User } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,27 +13,30 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
+const auth = getAuth();
 
-export function login() {
-  const auth = getAuth();
-  signInWithPopup(auth, provider)
+export async function login(): Promise<User | void> {
+  return signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      // The signed-in user info.
       const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
+      return user;
     })
     .catch((error) => {
-      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
-      // The email of the user's account used.
       const email = error.customData.email;
-      // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
+      console.error(error);
     });
+}
+
+export async function logout() {
+  return signOut(auth).then(() => null);
+}
+
+export function onUserStateChange(callback: Function) {
+  onAuthStateChanged(auth, (user) => {
+    callback(user);
+  });
 }
