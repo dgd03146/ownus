@@ -8,6 +8,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { Pages } from '@lib/constants/constant';
 import tw, { css } from 'twin.macro';
 import { useRouter } from 'next/router';
+import { login } from '@services/api/firebase';
 
 // TODO: 다이나믹 라우팅, 배열로 돌리기
 
@@ -41,33 +42,23 @@ const Header = () => {
     <header
       css={[
         tw`z-[1] fixed py-[30px] px-[60px] flex items-center w-full text-primary3`,
-        !isHomePage && isScroll && tw`bg-primary1 py-2`
+        !isHomePage && isScroll && tw`bg-primary1 py-2`,
       ]}
     >
       <div tw="flex basis-[25%] justify-start">
-        <Link
-          tw="text-xl mobile:text-2xl font-Cinzel font-semibold hover:text-primary4"
-          href={'/'}
-        >
+        <Link tw="text-xl mobile:text-2xl font-Cinzel font-semibold hover:text-primary4" href={'/'}>
           OWNUS
         </Link>
       </div>
       <ul
         css={[
           tw`mobile:flex gap-20 absolute mobile:static top-[56px] bg-white1 mobile:bg-opacity-0 w-full mobile:w-auto left-0 px-8 mobile:px-0 py-4 mobile:py-0 justify-center basis-[50%] `,
-          !showMenu && tw`hidden`
+          !showMenu && tw`hidden`,
         ]}
       >
         {Pages.map((page) => (
-          <li
-            tw="flex justify-between py-2 mobile:py-0 hover:text-primary4"
-            key={page.href}
-          >
-            <Link
-              className="group"
-              tw="relative font-bold text-[12px]"
-              href={page.href}
-            >
+          <li tw="flex justify-between py-2 mobile:py-0 hover:text-primary4" key={page.href}>
+            <Link className="group" tw="relative font-bold text-[12px]" href={page.href}>
               {page.title}
               {/* <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" /> */}
             </Link>
@@ -84,9 +75,7 @@ const Header = () => {
         <Link href={'/'} tw="hover:text-primary4">
           <p>MY PAGE</p>
         </Link>
-        <Link href={'/'} tw="hover:text-primary4">
-          <p>JOIN</p>
-        </Link>
+        <button onClick={login}>LOGIN</button>
       </div>
       <button tw="block text-2xl mobile:hidden" onClick={handleTogle}>
         {showMenu ? <AiOutlineClose /> : <AiOutlineMenu />}
