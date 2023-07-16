@@ -9,7 +9,7 @@ import React from 'react';
 import tw, { css } from 'twin.macro';
 import { TProducts } from 'types/products';
 import { FaHeart } from 'react-icons/fa';
-import { ProductsFilter } from '@lib/constants/constant';
+import { ProductsFilter } from 'constants/constant';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
@@ -20,13 +20,13 @@ export const getStaticProps: GetStaticProps = async () => {
     await queryClient.prefetchQuery([queryKeys.products], getProducts);
     return {
       props: {
-        dehydratedState: dehydrate(queryClient)
+        dehydratedState: dehydrate(queryClient),
       },
-      revalidate: parseInt(process.env.REVALIDATE_SECONDS!)
+      revalidate: parseInt(process.env.REVALIDATE_SECONDS!),
     };
   } catch (e) {
     return {
-      notFound: true
+      notFound: true,
     };
   } finally {
     queryClient.clear();
@@ -50,32 +50,26 @@ const Products = () => {
         </ul>
         <ul tw="grid py-8 tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-3">
           {/* FIXME: products 데이터로 수정 */}
-          {MockProducts.map(
-            ({ product_id, p_name, p_price, thunbnail_url }) => (
-              <li tw="px-[50px] mb-[50px]" key={product_id}>
-                <Link href={`/products/${product_id}`}>
-                  <div css={imageWrapper}>
-                    <Image
-                      src={thunbnail_url}
-                      alt="product"
-                      layout="fill"
-                      objectFit="cover"
-                      objectPosition="center"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div tw="my-2 text-center font-GowunDodam">
-                    <p tw="text-primary3 font-semibold text-opacity-70 text-[14px]">
-                      {p_name}
-                    </p>
-                    <p tw="text-primary3 font-extrabold text-[15px]">
-                      {p_price}원
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            )
-          )}
+          {MockProducts.map(({ product_id, p_name, p_price, thunbnail_url }) => (
+            <li tw="px-[50px] mb-[50px]" key={product_id}>
+              <Link href={`/products/${product_id}`}>
+                <div css={imageWrapper}>
+                  <Image
+                    src={thunbnail_url}
+                    alt="product"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    loading="lazy"
+                  />
+                </div>
+                <div tw="my-2 text-center font-GowunDodam">
+                  <p tw="text-primary3 font-semibold text-opacity-70 text-[14px]">{p_name}</p>
+                  <p tw="text-primary3 font-extrabold text-[15px]">{p_price}원</p>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div tw="flex justify-center my-28">

@@ -1,5 +1,5 @@
 import { HttpClientService } from '../lib/api/httpClient';
-import { UsersEndPoint } from '@lib/constants/endpoint';
+import { UsersEndPoint } from 'constants/endpoint';
 import { TokenService } from './tokenService';
 import { AxiosResponse } from 'axios';
 
@@ -19,19 +19,12 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    const res = await this.httpClient.instance.post<AuthResponse>(
-      UsersEndPoint.login,
-      { email, password }
-    );
+    const res = await this.httpClient.instance.post<AuthResponse>(UsersEndPoint.login, { email, password });
 
     return res;
   }
 
-  async signup(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<any> {
+  async signup(username: string, email: string, password: string): Promise<any> {
     return await this.httpClient.instance.get(UsersEndPoint.signup);
   }
 

@@ -1,11 +1,5 @@
-import { EndPoint } from '@lib/constants/endpoint';
-import axios, {
-  AxiosDefaults,
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios';
+import { EndPoint } from 'constants/endpoint';
+import axios, { AxiosDefaults, AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { TokenService } from '../../services/tokenService';
 
 interface IFailedRequestQueue {
@@ -25,17 +19,14 @@ export class HttpClientService {
     this.tokenRepository = tokenRepository;
     this.baseURL = baseURL;
     this.instance = axios.create({
-      baseURL: this.baseURL
+      baseURL: this.baseURL,
       // headers: { Authorization: this.tokenRepository.getToken() }
     });
 
     this.handleInterceptor();
   }
 
-  private setAuthorizationHeader(
-    request: AxiosDefaults | AxiosRequestConfig | any,
-    token: string
-  ) {
+  private setAuthorizationHeader(request: AxiosDefaults | AxiosRequestConfig | any, token: string) {
     request.headers.Authorization = `Bearer ${token}`;
   }
 
@@ -43,15 +34,12 @@ export class HttpClientService {
     this.isTokenRefreshing = true;
     try {
       const { data } = await this.instance.post(EndPoint.refresh, {
-        refreshToken
+        refreshToken,
       });
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-        data;
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data;
       this.tokenRepository.saveToken(newAccessToken, newRefreshToken);
       this.setAuthorizationHeader(this.instance.defaults, newAccessToken);
-      this.failedRequestQueue.forEach((request) =>
-        request.onSuccess(newAccessToken)
-      );
+      this.failedRequestQueue.forEach((request) => request.onSuccess(newAccessToken));
       this.failedRequestQueue = [];
     } catch (error) {
       this.failedRequestQueue.forEach((request) => request.onFailure(error));
@@ -80,10 +68,7 @@ export class HttpClientService {
   private async handleResponseError(error: AxiosError) {
     const { status, message, config } = error;
     if (status === 401) {
-      if (
-        message === 'token expired' ||
-        (message === 'no authorization' && !this.isTokenRefreshing)
-      ) {
+      if (message === 'token expired' || (message === 'no authorization' && !this.isTokenRefreshing)) {
         // 토큰이 만료되었거나 페이지를 새로고침해서 accessToken이 없어지는 경우 isTokenRefreshing이 false인 경우에만 token refresh 요청
         const originalConfig = config!; // 원래의 요청
         // token expired 메세지가 나타날 경우
@@ -99,7 +84,7 @@ export class HttpClientService {
             },
             onFailure: (error) => {
               reject(error);
-            }
+            },
           });
         });
       } else {
@@ -110,14 +95,8 @@ export class HttpClientService {
   }
 
   private handleInterceptor() {
-    this.instance.interceptors.request.use(
-      this.handleRequest,
-      this.handleRequestError
-    );
+    this.instance.interceptors.request.use(this.handleRequest, this.handleRequestError);
 
-    this.instance.interceptors.response.use(
-      this.handleResponse,
-      this.handleResponseError
-    );
+    this.instance.interceptors.response.use(this.handleResponse, this.handleResponseError);
   }
 }
