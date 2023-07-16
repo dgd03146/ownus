@@ -8,12 +8,7 @@ import Link from 'next/link';
 import { FormInput } from '@components/common/input/formInput';
 import WithAuth from '@components/hoc/withAuth';
 import { TSignup } from 'types/user';
-import {
-  EmailInput,
-  PasswordInput,
-  UsernameInput,
-  PasswordConfirmInput
-} from '@lib/constants/auth';
+import { EmailInput, PasswordInput, UsernameInput, PasswordConfirmInput } from 'constants/auth';
 import { useSignup } from 'queries/hooks/auth/useSignup';
 import { Button, Form } from './styles';
 const SignUp = () => {
@@ -23,7 +18,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     getValues,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm<TSignup>();
 
   const passwordConfirmRules = {
@@ -32,8 +27,8 @@ const SignUp = () => {
       matchPassword: (value: string) => {
         const { password } = getValues();
         return password === value || '비밀번호가 일치하지 않습니다.';
-      }
-    }
+      },
+    },
   };
 
   const onSubmit = async (formData: TSignup) => {

@@ -25,9 +25,9 @@ const Layout = ({ children, title }: LayoutProps) => {
       <Head>
         <title>{title}</title>
       </Head>
-      <div tw="h-screen flex relative">
-        <div tw="z-10 w-full h-full absolute flex">
-          <div tw="w-full">
+      <div tw="h-screen flex relative ">
+        <div tw="z-10 w-full h-full absolute flex ">
+          <div tw="w-full flex flex-col">
             {!isAuthPage && (
               <>
                 <header tw="mb-[92px]">
@@ -43,7 +43,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                 />
               </>
             )}
-            <main tw="max-w-[1280px] mx-auto my-0">{children}</main>
+            <main tw="w-[90%] max-w-[1280px] mx-auto my-0 flex-[1]">{children}</main>
             {!isAuthPage && !isHomePage && <Footer />}
           </div>
         </div>

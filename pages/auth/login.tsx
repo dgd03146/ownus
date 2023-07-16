@@ -6,7 +6,7 @@ import background from '/public/images/background3.jpg';
 import Link from 'next/link';
 import Header from '@components/common/auth/header';
 import { FormInput } from '@components/common/input/formInput';
-import { EmailInput, PasswordInput } from '@lib/constants/auth';
+import { EmailInput, PasswordInput } from 'constants/auth';
 import { useLogin } from 'queries/hooks/auth/useLogin';
 import WithAuth from '@components/hoc/withAuth';
 import { TLogin } from 'types/user';
@@ -21,7 +21,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm<TLogin>();
 
   const onSubmit = async (formData: TLogin) => {

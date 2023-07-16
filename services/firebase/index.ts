@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
 import { User } from 'firebase/auth';
+import { getDatabase, ref, get } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
+const database = getDatabase(app);
 
 export function login() {
   signInWithPopup(auth, provider).catch((error) => {
@@ -28,7 +30,20 @@ export async function logout() {
 }
 
 export function onUserStateChange(callback: Function) {
-  onAuthStateChanged(auth, (user) => {
-    callback(user);
+  onAuthStateChanged(auth, async (user) => {
+    const updatedUser = user ? await adminUser(user) : null;
+    callback(updatedUser);
   });
+}
+
+export async function adminUser(user: User) {
+  return get(ref(database, 'admins')) //
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const admins = snapshot.val();
+        const isAdmin = admins.includes(user.uid);
+        return { ...user, isAdmin };
+      }
+      return user;
+    });
 }
