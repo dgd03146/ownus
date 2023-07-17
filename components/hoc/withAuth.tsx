@@ -14,7 +14,7 @@ const WithAuth = (WrappedComponent: ComponentType<PropsWithChildren>, requireAdm
     if (loading) {
       return (
         <div tw="flex justify-center items-center mt-32 ">
-          <p tw="te">Loading...</p>
+          <p tw="text-4xl">Loading...</p>
         </div>
       );
     }

@@ -3,7 +3,7 @@ import {} from 'twin.macro';
 
 type TProps = {
   text: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Button = ({ text, onClick }: TProps) => {

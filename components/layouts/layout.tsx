@@ -43,7 +43,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                 />
               </>
             )}
-            <main tw="w-[90%] max-w-[1280px] mx-auto my-0 flex-[1]">{children}</main>
+            <main tw="w-[90%] max-w-[1280px] mx-auto my-12 flex-[1]">{children}</main>
             {!isAuthPage && !isHomePage && <Footer />}
           </div>
         </div>
