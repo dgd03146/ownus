@@ -1,12 +1,9 @@
 export type TProduct = {
-  product_id: string;
-  p_name: string;
-  p_price: number;
-  p_info: string;
-  thunbnail_url: string;
-  created_at: string;
-  is_sold: boolean;
-  p_images?: string[];
+  title: string;
+  category: string;
+  price: string;
+  description: string;
+  options: string;
 };
 
 export type TProducts = {

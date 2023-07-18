@@ -2,7 +2,9 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
 import { User } from 'firebase/auth';
-import { getDatabase, ref, get } from 'firebase/database';
+import { getDatabase, ref, get, set } from 'firebase/database';
+import { TProduct } from 'types/products';
+import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -46,4 +48,15 @@ export async function adminUser(user: User) {
       }
       return user;
     });
+}
+
+export async function addNewProduct(product: TProduct, image: string) {
+  const id = uuid();
+  set(ref(database, `products/${id}`), {
+    ...product,
+    id,
+    price: parseInt(product.price),
+    image,
+    options: product.options?.split(','),
+  });
 }

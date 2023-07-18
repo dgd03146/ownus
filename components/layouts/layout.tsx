@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import tw from 'twin.macro';
 import Footer from './footer';
+import PageTitlte from './pageTitle';
 // import SideBar from './sidebar';
 
 interface LayoutProps extends PropsWithChildren {
@@ -43,6 +44,7 @@ const Layout = ({ children, title }: LayoutProps) => {
                 />
               </>
             )}
+            {!isHomePage && <PageTitlte />}
             <main tw="w-[90%] max-w-[1280px] mx-auto my-12 flex-[1]">{children}</main>
             {!isAuthPage && !isHomePage && <Footer />}
           </div>

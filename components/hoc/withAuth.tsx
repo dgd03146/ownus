@@ -10,8 +10,6 @@ const WithAuth = (WrappedComponent: ComponentType<PropsWithChildren>, requireAdm
     const router = useRouter();
     const { loading, user } = useAuthContext();
 
-    console.log(user, 'withAuth 안 user');
-
     if (loading) {
       return (
         <div tw="flex justify-center items-center mt-32 ">
