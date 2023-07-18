@@ -45,7 +45,7 @@ const Products = () => {
           {MockProducts.map(({ product_id, p_name, p_price, thunbnail_url }) => (
             <li tw="px-[50px] mb-[50px]" key={product_id}>
               <Link href={`/products/${product_id}`}>
-                <div css={imageWrapper}>
+                <div css={ImageWrapper}>
                   <Image
                     src={thunbnail_url}
                     alt="product"
@@ -71,7 +71,7 @@ const Products = () => {
 
 export default Products;
 
-const imageWrapper = css`
+const ImageWrapper = css`
   ${tw`relative w-full mobile:h-[350px] tablet:h-[466px] overflow-hidden`}
 
   img {
