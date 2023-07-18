@@ -3,13 +3,12 @@ import { MockProducts } from 'mock/products';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProducts, useProducts } from 'queries/hooks/products/useProducts';
+import { getProducts } from 'queries/hooks/products/useProducts';
 import { queryKeys } from 'queries/keys';
 import React from 'react';
 import tw, { css } from 'twin.macro';
-import { TProducts } from 'types/products';
-import { FaHeart } from 'react-icons/fa';
-import { ProductsFilter } from 'constants/constant';
+import Categories from '@components/products/categories';
+import Pages from '@components/products/pages';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
@@ -39,21 +38,14 @@ const Products = () => {
 
   return (
     <>
-      <div tw="my-24 mx-auto">
-        <ul tw="flex justify-center pt-12 gap-x-8 pb-16 px-[50px] text-[13px] text-primary3 font-semibold text-opacity-60">
-          {ProductsFilter.map((it) => (
-            <li className="group" tw="relative cursor-pointer" key={it.title}>
-              <p>{it.title}</p>
-              <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-90 transition-transform duration-500" />
-            </li>
-          ))}
-        </ul>
-        <ul tw="grid py-8 tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-3">
+      <div tw="mx-auto">
+        <Categories />
+        <ul tw="grid tablet:grid-cols-2 laptop:grid-cols-2 desktop:grid-cols-3">
           {/* FIXME: products 데이터로 수정 */}
           {MockProducts.map(({ product_id, p_name, p_price, thunbnail_url }) => (
             <li tw="px-[50px] mb-[50px]" key={product_id}>
               <Link href={`/products/${product_id}`}>
-                <div css={imageWrapper}>
+                <div css={ImageWrapper}>
                   <Image
                     src={thunbnail_url}
                     alt="product"
@@ -71,16 +63,7 @@ const Products = () => {
             </li>
           ))}
         </ul>
-
-        <div tw="flex justify-center my-28">
-          <ul tw="flex gap-x-12 text-primary3">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-          </ul>
-        </div>
+        <Pages />
       </div>
     </>
   );
@@ -88,7 +71,7 @@ const Products = () => {
 
 export default Products;
 
-const imageWrapper = css`
+const ImageWrapper = css`
   ${tw`relative w-full mobile:h-[350px] tablet:h-[466px] overflow-hidden`}
 
   img {

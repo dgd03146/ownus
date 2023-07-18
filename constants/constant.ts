@@ -1,15 +1,14 @@
-export const Pages = [
-  // { href: '/about', title: 'ABOUT US' },
-  { href: '/products', title: 'SHOP' },
-  // { href: '/contacts', title: 'COMMUNITY' },
-  // { href: '/contacts', title: 'CONTACTS' },
+export const PRODUCTS_FILTER = [
+  { id: 1, title: 'Bouquet' },
+  { id: 2, title: 'Flower Basket' },
+  { id: 3, title: 'Flower Box' },
+  { id: 4, title: 'Vase Arragement' },
+  { id: 5, title: 'Plants' },
 ];
 
-export const ProductsFilter = [
-  { title: 'New' },
-  { title: 'Bouquet' },
-  { title: 'Flower Basket' },
-  { title: 'Flower Box' },
-  { title: 'Vase Arragement' },
-  { title: 'Plants' },
-];
+export const DEFAULT_PRODUCT = {
+  title: '',
+  category: '',
+  price: '',
+  description: '',
+};
