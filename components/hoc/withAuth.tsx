@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from 'context/authContext';
 
 import {} from 'twin.macro';
+import Loading from '@components/layouts/loading';
 
 const WithAuth = (WrappedComponent: ComponentType<PropsWithChildren>, requireAdmin?: boolean) => {
   const AuthenticatedComponent = (props: PropsWithChildren) => {
@@ -14,7 +15,7 @@ const WithAuth = (WrappedComponent: ComponentType<PropsWithChildren>, requireAdm
     if (loading) {
       return (
         <div tw="flex justify-center items-center mt-32 ">
-          <p tw="text-4xl">Loading...</p>
+          <Loading />
         </div>
       );
     }

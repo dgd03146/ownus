@@ -2,6 +2,7 @@ import Button from '@components/common/button';
 import withAuth from '@components/hoc/withAuth';
 import Image from 'next/image';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { uploadImage } from 'utils/uploader';
 
 type TProduct = {
   title?: string;
@@ -27,6 +28,10 @@ const NewProduct = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    file &&
+      uploadImage(file).then((url) => {
+        console.log(url);
+      });
   };
   return (
     <section>
@@ -59,7 +64,7 @@ const NewProduct = () => {
         />
         <input
           type="text"
-          name="category"
+          name="description"
           value={product?.description ?? ''}
           placeholder="Prouduct Description"
           required

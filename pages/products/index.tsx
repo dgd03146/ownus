@@ -3,12 +3,12 @@ import { MockProducts } from 'mock/products';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProducts, useProducts } from 'queries/hooks/products/useProducts';
+import { getProducts } from 'queries/hooks/products/useProducts';
 import { queryKeys } from 'queries/keys';
 import React from 'react';
 import tw, { css } from 'twin.macro';
-import { ProductsFilter } from 'constants/constant';
 import Categories from '@components/products/categories';
+import Pages from '@components/products/pages';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
@@ -63,14 +63,7 @@ const Products = () => {
             </li>
           ))}
         </ul>
-
-        <ul tw="flex justify-center my-12 gap-x-12 text-primary3">
-          <li>1</li>
-          <li>2</li>
-          <li>3</li>
-          <li>4</li>
-          <li>5</li>
-        </ul>
+        <Pages />
       </div>
     </>
   );
