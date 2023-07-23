@@ -1,6 +1,6 @@
 // import { userService } from './../../lib/api/instance';
 
-import { queryKeys } from '../../keys';
+import { QUERY_KEYS } from '../../keys';
 import { queryClient } from '../../queryClient';
 import { useQuery } from '@tanstack/react-query';
 import { authService } from '@lib/api/instance';
@@ -19,11 +19,11 @@ const getUser = async () => {
 
 // 새로고침시 유저정보 다시 받아오기위해서 getUser 요청? 캐시에 user정보가 있으면 캐시 만료될때까지.
 export const useUser = () => {
-  const { data: user } = useQuery<TUser>([queryKeys.user], () => getUser());
+  const { data: user } = useQuery<TUser>([QUERY_KEYS.user], () => getUser());
 
   const clearUser = () => {
     // reset user to null
-    queryClient.setQueryData([queryKeys.user], null);
+    queryClient.setQueryData([QUERY_KEYS.user], null);
   };
 
   return { user, clearUser };

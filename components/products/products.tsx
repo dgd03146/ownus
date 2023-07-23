@@ -1,14 +1,14 @@
 import Loading from '@components/layouts/loading';
 import { getProducts } from '@services/firebase';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import {} from 'twin.macro';
 import Product from './product';
-import { TProducts } from 'types/products';
+import { useProducts } from 'queries/hooks/products/useProducts';
 
 const Products = () => {
-  const { isLoading, data: products, error } = useQuery<TProducts>(['products'], getProducts);
-  console.log(products, 'products');
+  const { isLoading, products, error } = useProducts();
+
   return (
     <>
       {isLoading && <Loading />}

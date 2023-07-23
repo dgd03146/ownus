@@ -69,3 +69,12 @@ export async function getProducts(): Promise<TProducts> {
     return [];
   });
 }
+
+export async function getProduct(id: string): Promise<TProduct> {
+  return get(ref(database, `products/${id}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+    return {};
+  });
+}

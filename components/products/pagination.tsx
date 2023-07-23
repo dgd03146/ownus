@@ -1,7 +1,7 @@
 import React from 'react';
 import {} from 'twin.macro';
 
-const Pages = () => {
+const Pagination = () => {
   return (
     <ul tw="flex justify-center my-12 gap-x-12 text-primary3">
       <li>1</li>
@@ -13,4 +13,4 @@ const Pages = () => {
   );
 };
 
-export default Pages;
+export default Pagination;

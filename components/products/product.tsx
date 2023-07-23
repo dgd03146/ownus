@@ -10,8 +10,6 @@ type TProps = {
 };
 
 const Product = ({ product: { id, image, title, category, price } }: TProps) => {
-  console.log(title, 'title');
-  console.log(category, 'category');
   return (
     <li tw="px-[50px] mb-[50px]">
       <Link href={`/products/${id}`}>
