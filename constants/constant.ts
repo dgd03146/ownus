@@ -12,4 +12,5 @@ export const DEFAULT_PRODUCT = {
   price: '',
   image: '',
   description: '',
+  quantity: 0,
 };

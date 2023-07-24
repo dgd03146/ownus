@@ -13,8 +13,6 @@ interface LayoutProps extends PropsWithChildren {
   title: string;
 }
 
-// TODO: children 안 쓸거면 수정
-
 const Layout = ({ children, title }: LayoutProps) => {
   const { pathname } = useRouter();
   const isHomePage = pathname === '/';
