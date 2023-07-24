@@ -3,8 +3,10 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
 import { User } from 'firebase/auth';
 import { getDatabase, ref, get, set } from 'firebase/database';
-import { TProduct } from 'types/products';
+import { TProduct, TProducts } from 'types/products';
 import { v4 as uuid } from 'uuid';
+
+// TODO: 서비스 분리하기
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,7 +15,6 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -57,5 +58,23 @@ export async function addNewProduct(product: TProduct, image: string) {
     id,
     price: parseInt(product.price),
     image,
+  });
+}
+
+export async function getProducts(): Promise<TProducts> {
+  return get(ref(database, 'products')).then((snapshot) => {
+    if (snapshot.exists()) {
+      return Object.values<TProduct>(snapshot.val());
+    }
+    return [];
+  });
+}
+
+export async function getProduct(id: string): Promise<TProduct> {
+  return get(ref(database, `products/${id}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+    return {};
   });
 }

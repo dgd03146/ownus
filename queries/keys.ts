@@ -1,4 +1,3 @@
-export const queryKeys = {
-  user: 'user',
-  products: 'products'
+export const QUERY_KEYS = {
+  products: ['products'],
 };

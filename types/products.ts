@@ -1,14 +1,10 @@
 export type TProduct = {
+  id?: string;
   title: string;
+  image: string;
   category: string;
   price: string;
   description: string;
 };
 
-export type TProducts = {
-  products: TProduct[];
-};
-
-//  product_id, p_name, p_price, thunbnail_url
-
-// p_info,  created_at,is_sold
+export type TProducts = TProduct[];

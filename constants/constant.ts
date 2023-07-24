@@ -8,7 +8,8 @@ export const PRODUCTS_FILTER = [
 
 export const DEFAULT_PRODUCT = {
   title: '',
-  category: '',
+  category: 'Bouquet',
   price: '',
+  image: '',
   description: '',
 };
