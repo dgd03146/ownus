@@ -5,7 +5,7 @@ import { QUERY_KEYS } from 'queries/keys';
 import React from 'react';
 import Categories from '@components/products/categories';
 import Pagination from '@components/products/pagination';
-import Products from '@components/products/products';
+import Products from '@components/products';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();

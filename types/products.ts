@@ -4,7 +4,8 @@ export type TProduct = {
   image: string;
   category: string;
   price: string;
-  description: string;
+  quantity: number;
+  description?: string;
 };
 
 export type TProducts = TProduct[];

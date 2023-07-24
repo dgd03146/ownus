@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import UserInfo from '@components/user';
 import Button from '@components/common/button';
 import { useAuthContext } from 'context/authContext';
+import CartStatus from '@components/cart/cartStatus';
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -51,8 +52,7 @@ const Header = () => {
       <div tw="hidden mobile:flex items-center gap-x-12 font-semibold text-[12px] basis-[25%] justify-end ">
         {user && (
           <Link className="group" tw="relative" href={'/cart'}>
-            <p>CART</p>
-            <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+            <CartStatus />
           </Link>
         )}
         <Link className="group" tw="relative" href={'/products'}>
@@ -60,8 +60,9 @@ const Header = () => {
           <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
         </Link>
         {user && user.isAdmin && (
-          <Link href={'/products'} tw="hover:text-primary4 text-2xl">
-            <BsFillCartPlusFill />
+          <Link href={'/products/new'} tw="relative ">
+            <p>NEW</p>
+            <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
           </Link>
         )}
         {user && <UserInfo user={user} />}

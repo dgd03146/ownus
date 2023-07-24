@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
 import tw, { css } from 'twin.macro';
-import Image from 'next/image';
 import { TProduct } from 'types/products';
 import { CldImage } from 'next-cloudinary';
 
@@ -11,7 +10,7 @@ type TProps = {
 
 const Product = ({ product: { id, image, title, category, price } }: TProps) => {
   return (
-    <li tw="px-[50px] mb-[50px]">
+    <li tw="mb-[50px]">
       <Link href={`/products/${id}`}>
         <div css={ImageWrapper}>
           <CldImage src={image} alt="product" layout="fill" objectFit="cover" objectPosition="center" loading="lazy" />
