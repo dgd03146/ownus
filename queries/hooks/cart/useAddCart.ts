@@ -1,31 +1,25 @@
 import { addOrUpdateToCart } from '@services/firebase';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthContext } from 'context/authContext';
+import { QUERY_KEYS } from 'queries/keys';
 import { useState } from 'react';
 import { TProduct } from 'types/products';
 
-function useAddCart(product: TProduct) {
+function useAddCart() {
   const { uid } = useAuthContext();
-  const { id, title, image, category, price } = product;
+  const userId = uid || '';
 
   const [quantity, setQuantity] = useState(1);
 
-  const handlePlus = () => {
-    setQuantity((prev) => prev + 1);
-  };
+  const queryClient = useQueryClient();
 
-  const handleMinus = () => {
-    if (quantity === 1) {
-      return;
-    }
-    setQuantity((prev) => prev - 1);
-  };
+  const addOrUpdateItem = useMutation((product: TProduct) => addOrUpdateToCart(userId, product), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(QUERY_KEYS.carts(userId));
+    },
+  });
 
-  const handleAddCart = () => {
-    const product = { id, image, title, price, category, quantity: 1 };
-    addOrUpdateToCart(uid as string, product);
-  };
-
-  return { handleAddCart, handlePlus, handleMinus, quantity };
+  return { setQuantity, quantity, uid, addOrUpdateItem };
 }
 
 export default useAddCart;

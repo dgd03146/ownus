@@ -4,15 +4,13 @@ import {} from 'twin.macro';
 import { ImageWrapper, ProductInfo } from './style';
 import { HiPlus } from 'react-icons/hi';
 import { HiMinus } from 'react-icons/hi';
-import Link from 'next/link';
-
 import { TProduct } from 'types/products';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { ParsedUrlQuery } from 'querystring';
-import { addOrUpdateToCart, getProduct, getProducts } from '@services/firebase';
-import { useAuthContext } from 'context/authContext';
+import { getProduct, getProducts } from '@services/firebase';
 import useAddCart from 'queries/hooks/cart/useAddCart';
+import Success from '@components/layouts/sucess';
 
 interface ProductPageParams extends ParsedUrlQuery {
   id: string;
@@ -47,8 +45,33 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
 };
 
 const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { title, image, category, price, description } = product;
-  const { handleAddCart, handlePlus, handleMinus, quantity } = useAddCart(product);
+  const [success, setSuccess] = useState<string | null>(null);
+  const { id, title, image, category, price, description } = product;
+
+  const { quantity, setQuantity, addOrUpdateItem } = useAddCart();
+
+  const handlePlus = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleMinus = () => {
+    if (quantity === 1) {
+      return;
+    }
+    setQuantity((prev) => prev - 1);
+  };
+
+  const handleAddCart = () => {
+    const product = { id, image, title, price, category, quantity: 1 };
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess('Added to cart');
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+      },
+    });
+  };
 
   return (
     <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-8 mx-auto">
@@ -73,6 +96,7 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
                 <HiPlus />
               </button>
             </div>
+            {success && <Success success={success} />}
             <button tw="bg-primary3 text-white1 py-3 px-12 whitespace-nowrap hover:bg-primary4" onClick={handleAddCart}>
               ADD CART
             </button>

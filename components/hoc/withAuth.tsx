@@ -1,7 +1,6 @@
 import { ComponentType, PropsWithChildren } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from 'context/authContext';
-
 import {} from 'twin.macro';
 import Loading from '@components/layouts/loading';
 

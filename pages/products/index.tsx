@@ -4,7 +4,7 @@ import { getProducts } from '@services/firebase';
 import { QUERY_KEYS } from 'queries/keys';
 import React from 'react';
 import Categories from '@components/products/categories';
-import Pagination from '@components/products/pagination';
+
 import Products from '@components/products';
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -33,7 +33,6 @@ const ProductsPage = () => {
       <div tw="mx-auto">
         <Categories />
         <Products />
-        <Pagination />
       </div>
     </>
   );

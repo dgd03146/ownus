@@ -1,4 +1,4 @@
 export const QUERY_KEYS = {
   products: ['products'],
-  carts: ['carts'],
+  carts: (uid: string) => ['carts', uid],
 };

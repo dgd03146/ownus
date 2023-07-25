@@ -15,11 +15,11 @@ const Product = ({ product: { id, image, title, category, price } }: TProps) => 
         <div css={ImageWrapper}>
           <CldImage src={image} alt="product" layout="fill" objectFit="cover" objectPosition="center" loading="lazy" />
         </div>
-        <div tw="my-2 text-center flex flex-col gap-y-2">
-          <h3 tw="text-primary3 text-opacity-70">{title}</h3>
-          <p tw="text-primary7">{category}</p>
-          <p tw="text-primary3 font-extrabold">£{price}</p>
+        <div tw="flex justify-between items-center">
+          <h3 tw="text-primary3 font-bold">{title}</h3>
+          <p tw="text-primary3 font-bold">£{price}</p>
         </div>
+        <p tw="text-primary3">{category}</p>
       </Link>
     </li>
   );
@@ -28,7 +28,7 @@ const Product = ({ product: { id, image, title, category, price } }: TProps) => 
 export default Product;
 
 const ImageWrapper = css`
-  ${tw`relative w-full mobile:h-[350px] tablet:h-[466px] overflow-hidden`}
+  ${tw`relative w-full mobile:h-[350px] tablet:h-[466px] overflow-hidden rounded-md`}
 
   img {
     -webkit-transform: scale(1);

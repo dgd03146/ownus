@@ -1,6 +1,4 @@
 import Loading from '@components/layouts/loading';
-import { getProducts } from '@services/firebase';
-import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import {} from 'twin.macro';
 import Product from './product';

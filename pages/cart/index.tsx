@@ -3,8 +3,6 @@ import PriceCard from '@components/cart/priceCard';
 import Button from '@components/common/button';
 import WithAuth from '@components/hoc/withAuth';
 import Loading from '@components/layouts/loading';
-import { useAuthContext } from 'context/authContext';
-
 import useGetCarts from 'queries/hooks/cart/useGetCarts';
 import React from 'react';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
@@ -15,7 +13,6 @@ const SHIPPING = 3000;
 
 const Cart = () => {
   const { isLoading, products } = useGetCarts();
-  const { uid } = useAuthContext();
 
   if (isLoading) return <Loading />;
 
@@ -29,7 +26,7 @@ const Cart = () => {
       {hasProducts && (
         <>
           <ul tw="border-b border-white2 mb-8 py-4">
-            {products && products.map((product) => <CartItem key={product.id} product={product} uid={uid as string} />)}
+            {products && products.map((product) => <CartItem key={product.id} product={product} />)}
           </ul>
           <div tw="flex justify-between items-center px-2 tablet:px-8 mb-8">
             <PriceCard text="Item Total Price" price={totalPrice} />

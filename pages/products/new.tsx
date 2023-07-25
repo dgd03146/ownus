@@ -8,12 +8,15 @@ import { uploadImage } from 'utils/uploader';
 import tw, { styled } from 'twin.macro';
 import { DEFAULT_PRODUCT, PRODUCTS_FILTER } from 'constants/constant';
 import defaultImage from '/public/images/background6.jpg';
+import useAddProduct from 'queries/hooks/products/useAddProduct';
+import Success from '@components/layouts/sucess';
 
 const NewProduct = () => {
   const [product, setProduct] = useState<TProduct>(DEFAULT_PRODUCT);
   const [file, setFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
+  const { addProduct } = useAddProduct();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -32,19 +35,23 @@ const NewProduct = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsUploading(true);
 
     if (file) {
       uploadImage(file) //
         .then((url) => {
-          addNewProduct(product, url).then(() => {
-            setSuccess('Registered');
+          addProduct.mutate(
+            { product, url },
+            {
+              onSuccess: () => {
+                setSuccess('Registered');
+                setTimeout(() => {
+                  setSuccess(null);
+                }, 4000);
+              },
+            },
+          );
 
-            setTimeout(() => {
-              setSuccess(null);
-            }, 4000);
-          });
           setProduct(DEFAULT_PRODUCT);
         })
         .finally(() => setIsUploading(false));
@@ -53,14 +60,7 @@ const NewProduct = () => {
 
   return (
     <section>
-      {success && (
-        <div tw="relative">
-          <p tw="py-4 px-4 font-bold bg-primary2 text-primary7 w-fit rounded-lg mb-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[100%]">
-            🌷 {success}
-          </p>
-        </div>
-      )}
-
+      {success && <Success success={success} />}
       <Image
         tw="mx-auto mb-4 min-h-[300px] min-w-[300px] rounded-md"
         src={file ? URL.createObjectURL(file) : defaultImage}

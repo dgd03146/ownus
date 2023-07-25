@@ -3,27 +3,30 @@ import React from 'react';
 import { AiOutlinePlusSquare, AiOutlineMinusSquare } from 'react-icons/ai';
 import { TProduct } from 'types/products';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { addOrUpdateToCart, removeFromCart } from '@services/firebase';
 import tw, { css } from 'twin.macro';
+import useAddCart from 'queries/hooks/cart/useAddCart';
+import useRemoveCart from 'queries/hooks/cart/useRemoveCart';
 
 type TProps = {
   product: TProduct;
-  uid: string;
 };
 
 const ICON_CLASS = 'transition-all cursor-pointer hover:text-primary3 hover:scale-105 mx-1';
 
-const CartItem = ({ product, uid }: TProps) => {
+const CartItem = ({ product }: TProps) => {
   const { id, image, title, quantity, category, price } = product;
+
+  const { addOrUpdateItem } = useAddCart();
+  const { removeItem } = useRemoveCart();
 
   const handleMinus = () => {
     if (quantity < 2) return;
-    addOrUpdateToCart(uid, { ...product, quantity: quantity - 1 });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
 
-  const handlePlus = () => addOrUpdateToCart(uid, { ...product, quantity: quantity + 1 });
+  const handlePlus = () => addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
 
-  const handleDelete = () => removeFromCart(uid, id as string);
+  const handleDelete = () => removeItem.mutate(id || '');
 
   return (
     <li tw="flex justify-between my-4 items-center">
