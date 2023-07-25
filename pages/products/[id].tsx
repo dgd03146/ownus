@@ -1,17 +1,16 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import tw, { css } from 'twin.macro';
-
+import {} from 'twin.macro';
 import { ImageWrapper, ProductInfo } from './style';
 import { HiPlus } from 'react-icons/hi';
 import { HiMinus } from 'react-icons/hi';
-import Link from 'next/link';
-import { getRelatedProducts } from 'utils/relatedProducts';
 import { TProduct } from 'types/products';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { ParsedUrlQuery } from 'querystring';
 import { getProduct, getProducts } from '@services/firebase';
+import useAddCart from 'queries/hooks/cart/useAddCart';
+import Success from '@components/layouts/sucess';
 
 interface ProductPageParams extends ParsedUrlQuery {
   id: string;
@@ -46,10 +45,10 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
 };
 
 const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { title, image, category, price, description } = product;
-  console.log(product, 'product');
+  const [success, setSuccess] = useState<string | null>(null);
+  const { id, title, image, category, price, description } = product;
 
-  const [quantity, setQuantity] = useState(1);
+  const { quantity, setQuantity, addOrUpdateItem } = useAddCart();
 
   const handlePlus = () => {
     setQuantity((prev) => prev + 1);
@@ -60,6 +59,18 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
       return;
     }
     setQuantity((prev) => prev - 1);
+  };
+
+  const handleAddCart = () => {
+    const product = { id, image, title, price, category, quantity: 1 };
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess('Added to cart');
+        setTimeout(() => {
+          setSuccess(null);
+        }, 3000);
+      },
+    });
   };
 
   return (
@@ -85,77 +96,15 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
                 <HiPlus />
               </button>
             </div>
-            <Link href={'/cart'}>
-              <button tw="bg-primary3 text-white1 py-3 px-12 whitespace-nowrap">장바구니 담기</button>
-            </Link>
+            {success && <Success success={success} />}
+            <button tw="bg-primary3 text-white1 py-3 px-12 whitespace-nowrap hover:bg-primary4" onClick={handleAddCart}>
+              ADD CART
+            </button>
           </div>
-          {/* <AdditionalInfo>
-            <p>category</p>
-            <p>category</p>
-            <p>category</p>
-          </AdditionalInfo> */}
         </ProductInfo>
       </div>
-      {/* <div tw="my-8">
-        <div tw="flex justify-center gap-x-24">
-          <div tw="bg-primary5 text-white1 rounded-xl px-4 py-1">
-            <p>상품 설명</p>
-          </div>
-          <div tw="bg-primary5 text-white1 rounded-xl px-4 py-1">
-            <p>추가 정보</p>
-          </div>
-          <div tw="bg-primary5 text-white1 rounded-xl px-4 py-1">
-            <p>리뷰</p>
-          </div>
-        </div>
-        <div tw="h-[1px] w-[80%] mx-auto bg-primary1 my-4" />
-        <div tw="mx-auto my-8 w-[60%]">
-          <p tw="break-all">
-            상품은 이렇습니다 이상품은 이래서 좋습니다 상품은 이렇습니다 이상품은 이래서 좋습니다상품은 이렇습니다
-            이상품은 이래서 좋습니다상품은 이렇습니다 이상품은 이래서 좋습니다상품은 이렇습니다 이상품은 이래서
-            좋습니다상품은 이렇습니다 이상품은 이래서 좋습니다
-          </p>
-        </div>
-      </div> */}
-      {/* <div tw="my-32">
-        <h3 tw="mb-8 text-primary3 font-semibold">관련 상품</h3>
-        <ul tw="flex gap-x-8">
-          {getRelatedProducts(MockProducts).map(({ thunbnail_url, p_name, p_price }) => (
-            <li>
-              <div css={imageWrapper}>
-                <Image
-                  src={thunbnail_url}
-                  alt="product"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-                  loading="lazy"
-                />
-              </div>
-              <h3 tw="text-[18px] font-semibold mb-[2px]">{p_name}</h3>
-              <p>{p_price}원</p>
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 };
 
 export default Product;
-
-const imageWrapper = css`
-  ${tw`relative w-[250px] h-[250px] overflow-hidden`}
-
-  img {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -webkit-transition: 0.3s ease-in-out;
-    transition: 0.3s ease-in-out;
-  }
-
-  :hover img {
-    -webkit-transform: scale(1.05);
-    transform: scale(1.05);
-  }
-`;

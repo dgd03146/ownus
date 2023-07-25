@@ -7,6 +7,7 @@ interface IUser extends User {
 }
 
 type AuthContextType = {
+  uid: string | null;
   user: IUser | null;
   loading: boolean;
   // setUserInfo: Dispatch<SetStateAction<IUser | undefined>>;
@@ -26,7 +27,6 @@ type AuthContextProviderProps = {
 const AuthContext = createContext<typeof initialAuthContext>(initialAuthContext);
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  // const [userInfo, setUserInfo] = useState<IUser>();
   const [authState, setAuthState] = useState<{
     user: IUser | null;
     loading: boolean;
@@ -46,7 +46,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     return () => stopListen();
   }, [adminUser, getAuth]);
 
-  return <AuthContext.Provider value={{ user, login, logout, loading }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, uid: user && user.uid, login, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuthContext() {

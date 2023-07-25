@@ -4,7 +4,7 @@ import {} from 'twin.macro';
 type TProps = {
   text: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const Button = ({ text, onClick, disabled }: TProps) => {
