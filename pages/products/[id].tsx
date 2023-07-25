@@ -1,12 +1,10 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import {} from 'twin.macro';
-import { ImageWrapper, ProductInfo } from './style';
+import tw, { styled } from 'twin.macro';
 import { HiPlus } from 'react-icons/hi';
 import { HiMinus } from 'react-icons/hi';
 import { TProduct } from 'types/products';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-
 import { ParsedUrlQuery } from 'querystring';
 import { getProduct, getProducts } from '@services/firebase';
 import useAddCart from 'queries/hooks/cart/useAddCart';
@@ -108,3 +106,28 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
 };
 
 export default Product;
+
+const ImageWrapper = styled.div`
+  ${tw`relative w-full mobile:h-[500px] tablet:h-[600px] overflow-hidden cursor-pointer`}
+
+  img {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+  }
+
+  :hover img {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+`;
+
+const ProductInfo = styled.div`
+  ${tw`basis-1/2`} /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    display: none;
+    margin: 0;
+  }
+`;
