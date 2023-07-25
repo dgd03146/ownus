@@ -5,8 +5,8 @@ const nextConfig = withTwin({
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['images.unsplash.com']
-  }
+    domains: ['images.unsplash.com', 'lh3.googleusercontent.com', 'api.cloudinary.com', 'res.cloudinary.com'],
+  },
 });
 
 module.exports = nextConfig;

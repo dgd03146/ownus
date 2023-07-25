@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 export const ImageWrapper = styled.div`
   ${tw`relative w-full mobile:h-[500px] tablet:h-[600px] overflow-hidden cursor-pointer`}
