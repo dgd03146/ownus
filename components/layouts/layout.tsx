@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import {} from 'twin.macro';
 import Footer from './footer';
 import PageTitlte from './pageTitle';
-// import SideBar from './sidebar';
 
 interface LayoutProps extends PropsWithChildren {
   title: string;
@@ -29,14 +28,16 @@ const Layout = ({ children, title }: LayoutProps) => {
               <header tw="mb-[92px]">
                 <Header />
               </header>
-              <Image
-                tw="block mobile:hidden"
-                src={background}
-                alt="background"
-                // layout="fill"
-                objectFit="cover"
-                objectPosition="top"
-              />
+              {isHomePage && (
+                <Image
+                  tw="block mobile:hidden"
+                  src={background}
+                  alt="background"
+                  // layout="fill"
+                  objectFit="cover"
+                  objectPosition="top"
+                />
+              )}
             </>
             {!isHomePage && <PageTitlte />}
             <main tw="w-[90%] max-w-[1280px] mx-auto my-12 flex-[1]">{children}</main>

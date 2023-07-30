@@ -44,14 +44,14 @@ const Header = () => {
         !isHomePage && isScroll && tw`bg-primary1 py-2`,
       ]}
     >
-      <div tw="flex basis-[25%] justify-start">
-        <Link tw="text-xl mobile:text-2xl font-Cinzel font-semibold hover:text-primary4" href={'/'}>
+      <div tw="flex basis-[25%] justify-start ">
+        <Link tw="text-xl tablet:text-2xl font-Cinzel font-semibold hover:text-primary4" href={'/'}>
           OWNUS
         </Link>
       </div>
-      <div tw="hidden mobile:flex items-center gap-x-12 font-semibold text-[12px] basis-[25%] justify-end ">
+      <div tw="hidden tablet:flex items-center gap-x-12 font-semibold text-[12px] basis-[25%] justify-end">
         {user && (
-          <Link className="group" tw="relative" href={'/cart'}>
+          <Link className="group" tw="relative transform transition duration-300 hover:scale-110" href={'/cart'}>
             <CartStatus />
           </Link>
         )}
@@ -60,7 +60,7 @@ const Header = () => {
           <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
         </Link>
         {user && user.isAdmin && (
-          <Link href={'/products/new'} tw="relative ">
+          <Link className="group" href={'/products/new'} tw="relative ">
             <p>NEW</p>
             <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
           </Link>
@@ -69,7 +69,7 @@ const Header = () => {
         {!user && <Button text="LOGIN" onClick={login} />}
         {user && <Button text="LOGOUT" onClick={logout} />}
       </div>
-      <button tw="block text-2xl mobile:hidden" onClick={handleTogle}>
+      <button tw="block text-2xl tablet:hidden" onClick={handleTogle}>
         {showMenu ? <AiOutlineClose /> : <AiOutlineMenu />}
       </button>
     </header>
