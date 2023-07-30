@@ -5,7 +5,7 @@ import Header from './header';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {} from 'twin.macro';
-import Footer from './footer';
+import Footer from './footer/footer';
 import PageTitlte from './pageTitle';
 
 interface LayoutProps extends PropsWithChildren {
@@ -24,36 +24,19 @@ const Layout = ({ children, title }: LayoutProps) => {
       <div tw="h-screen flex relative ">
         <div tw="z-10 w-full h-full absolute flex ">
           <div tw="w-full flex flex-col">
-            <>
-              <header tw="mb-[92px]">
-                <Header />
-              </header>
-              {isHomePage && (
-                <Image
-                  tw="block mobile:hidden"
-                  src={background}
-                  alt="background"
-                  // layout="fill"
-                  objectFit="cover"
-                  objectPosition="top"
-                />
-              )}
-            </>
-            {!isHomePage && <PageTitlte />}
-            <main tw="w-[90%] max-w-[1280px] mx-auto my-12 flex-[1]">{children}</main>
-            {!isHomePage && <Footer />}
+            <header tw="mb-[48px] mobile:mb-[92px]">
+              <Header />
+            </header>
+            {!isHomePage && (
+              <div>
+                <PageTitlte />
+                <main tw="w-[90%] max-w-[1280px] mx-auto my-12 flex-[1]">{children}</main>
+                <Footer />
+              </div>
+            )}
           </div>
         </div>
-        {isHomePage && (
-          <Image
-            tw="hidden mobile:block"
-            src={background}
-            alt="background"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="top"
-          />
-        )}
+        {isHomePage && <Image src={background} alt="background" fill objectFit="cover" objectPosition="top" />}
       </div>
       {isHomePage && <Footer />}
     </>

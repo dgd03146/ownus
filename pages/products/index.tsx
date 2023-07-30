@@ -4,7 +4,7 @@ import { getProducts } from '@services/firebase';
 import { QUERY_KEYS } from 'queries/keys';
 import React from 'react';
 import Categories from '@components/products/categories';
-import Products from '@components/products';
+import Products from '@components/products/products';
 import { REVALIDATE_TIME } from 'constants/constant';
 
 export const getStaticProps: GetStaticProps = async () => {
