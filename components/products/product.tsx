@@ -3,6 +3,7 @@ import React from 'react';
 import tw, { css } from 'twin.macro';
 import { TProduct } from 'types/products';
 import { CldImage } from 'next-cloudinary';
+import { BLUR_IMAGE } from 'constants/constant';
 
 type TProps = {
   product: TProduct;
@@ -11,9 +12,18 @@ type TProps = {
 const Product = ({ product: { id, image, title, category, price } }: TProps) => {
   return (
     <li tw="mb-[50px]">
-      <Link href={`/products/${id}`}>
+      <Link href={`/products/${id}/${title}`}>
         <div css={ImageWrapper}>
-          <CldImage src={image} alt="product" layout="fill" objectFit="cover" objectPosition="center" loading="lazy" />
+          <CldImage
+            src={image}
+            alt="product"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL={BLUR_IMAGE}
+          />
         </div>
         <div tw="flex justify-between items-center">
           <h3 tw="text-primary3 font-bold">{title}</h3>

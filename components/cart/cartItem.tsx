@@ -6,6 +6,7 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import tw, { css } from 'twin.macro';
 import useAddCart from 'queries/hooks/cart/useAddCart';
 import useRemoveCart from 'queries/hooks/cart/useRemoveCart';
+import { BLUR_IMAGE } from 'constants/constant';
 
 type TProps = {
   product: TProduct;
@@ -29,9 +30,18 @@ const CartItem = ({ product }: TProps) => {
   const handleDelete = () => removeItem.mutate(id || '');
 
   return (
-    <li tw="flex justify-between my-4 items-center">
+    <li tw="flex justify-between my-4 items-center ">
       <div css={ImageWrapper}>
-        <Image src={image} alt={title} layout="fill" objectFit="cover" objectPosition="center" loading="lazy" />
+        <Image
+          src={image}
+          alt={title}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+          loading="lazy"
+          placeholder="blur"
+          blurDataURL={BLUR_IMAGE}
+        />
       </div>
       <div tw="flex-1 flex justify-between ml-8">
         <div tw="basis-3/5">

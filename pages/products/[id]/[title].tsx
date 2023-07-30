@@ -9,9 +9,11 @@ import { ParsedUrlQuery } from 'querystring';
 import { getProduct, getProducts } from '@services/firebase';
 import useAddCart from 'queries/hooks/cart/useAddCart';
 import Success from '@components/layouts/sucess';
+import { BLUR_IMAGE, REVALIDATE_TIME } from 'constants/constant';
 
 interface ProductPageParams extends ParsedUrlQuery {
   id: string;
+  title: string;
 }
 
 type ProductPageProps = {
@@ -22,8 +24,8 @@ export const getStaticPaths: GetStaticPaths<ProductPageParams> = async () => {
   const products = await getProducts();
 
   return {
-    paths: products.map(({ id }) => ({
-      params: { id: id || '' },
+    paths: products.map(({ id, title }) => ({
+      params: { id: id || '', title: title || '' },
     })),
     fallback: 'blocking',
   };
@@ -35,7 +37,7 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
     const product = await getProduct(id);
     return {
       props: { product },
-      revalidate: parseInt(process.env.REVALIDATE_SECONDS!),
+      revalidate: REVALIDATE_TIME,
     };
   } catch (err) {
     return { notFound: true };
@@ -73,10 +75,19 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
 
   return (
     <div tw="w-11/12 mobile:w-10/12 tablet:w-8/12 my-8 mx-auto">
-      <div tw="py-8 flex gap-x-20">
-        <div tw="basis-1/2">
+      <div tw="py-8 flex gap-x-20 flex-col laptop:flex-row">
+        <div tw="basis-[60%]">
           <ImageWrapper>
-            <Image src={image} alt="product" layout="fill" objectFit="cover" objectPosition="center" loading="lazy" />
+            <Image
+              src={image}
+              alt="product"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL={BLUR_IMAGE}
+            />
           </ImageWrapper>
         </div>
         <ProductInfo>
@@ -124,7 +135,7 @@ const ImageWrapper = styled.div`
 `;
 
 const ProductInfo = styled.div`
-  ${tw`basis-1/2`} /* Chrome, Safari, Edge, Opera */
+  ${tw`basis-[40%]`} /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     display: none;
