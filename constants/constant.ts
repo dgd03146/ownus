@@ -14,3 +14,8 @@ export const DEFAULT_PRODUCT = {
   description: '',
   quantity: 0,
 };
+
+export const BLUR_IMAGE =
+  'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==';
+
+export const REVALIDATE_TIME = 21600;

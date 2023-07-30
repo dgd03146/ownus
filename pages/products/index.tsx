@@ -4,8 +4,8 @@ import { getProducts } from '@services/firebase';
 import { QUERY_KEYS } from 'queries/keys';
 import React from 'react';
 import Categories from '@components/products/categories';
-
 import Products from '@components/products';
+import { REVALIDATE_TIME } from 'constants/constant';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
       props: {
         dehydratedState: dehydrate(queryClient),
       },
-      revalidate: parseInt(process.env.REVALIDATE_SECONDS!),
+      revalidate: REVALIDATE_TIME,
     };
   } catch (e) {
     return {
