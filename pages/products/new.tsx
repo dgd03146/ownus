@@ -26,10 +26,6 @@ const NewProduct = () => {
       return;
     }
 
-    if (name === 'category') {
-      console.log(name, value);
-    }
-
     setProduct((product) => ({ ...product, [name]: value }));
   };
 

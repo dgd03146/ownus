@@ -119,7 +119,7 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
 export default Product;
 
 const ImageWrapper = styled.div`
-  ${tw`relative w-full mobile:h-[500px] tablet:h-[600px] overflow-hidden cursor-pointer`}
+  ${tw`relative w-full mobile:h-[500px] tablet:h-[600px] overflow-hidden cursor-pointer rounded-md`}
 
   img {
     -webkit-transform: scale(1);

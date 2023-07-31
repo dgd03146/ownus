@@ -9,7 +9,7 @@ import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { FaEquals } from 'react-icons/fa';
 import {} from 'twin.macro';
 
-const SHIPPING = 3000;
+const SHIPPING = 5;
 
 const Cart = () => {
   const { isLoading, products } = useGetCarts();

@@ -1,4 +1,5 @@
 export const PRODUCTS_FILTER = [
+  { id: 0, title: 'All' },
   { id: 1, title: 'Bouquet' },
   { id: 2, title: 'Flower Basket' },
   { id: 3, title: 'Flower Box' },

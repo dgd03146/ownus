@@ -6,6 +6,7 @@ import { useAuthContext } from 'context/authContext';
 import tw from 'twin.macro';
 import { ROUTE } from 'constants/constant';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useRouter } from 'next/router';
 
 type TProps = {
   showMenu?: boolean;
@@ -13,6 +14,7 @@ type TProps = {
 };
 
 const Menu = ({ showMenu, handleMenuModal }: TProps) => {
+  const { pathname } = useRouter();
   const { user, login, logout } = useAuthContext();
   return (
     <div
@@ -31,12 +33,18 @@ const Menu = ({ showMenu, handleMenuModal }: TProps) => {
       )}
       <Link className="group" tw="relative" href={ROUTE.products}>
         <p>PRODUCTS</p>
-        <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+        <div
+          tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500"
+          css={[pathname === ROUTE.products && tw`scale-x-100 transition-transform duration-500`]}
+        />
       </Link>
       {user && user.isAdmin && (
         <Link className="group" href={ROUTE.new_products} tw="relative ">
           <p>NEW</p>
-          <div tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+          <div
+            tw="absolute w-full h-0.5 bg-primary4 scale-x-0 group-hover:scale-x-100 transition-transform duration-500"
+            css={[pathname === ROUTE.new_products && tw`scale-x-100 transition-transform duration-500`]}
+          />
         </Link>
       )}
       {user && !showMenu && <UserInfo user={user} />}
