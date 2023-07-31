@@ -36,8 +36,8 @@ class CustomDocument extends Document<NewDocumentInitialProps> {
           <style data-emotion-css={this.props?.ids?.join(' ')} dangerouslySetInnerHTML={{ __html: this.props.css }} />
         </Head>
         <body>
-          <Main />
           <div id="portal"></div>
+          <Main />
           <NextScript />
         </body>
       </Html>

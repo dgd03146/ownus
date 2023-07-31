@@ -1,5 +1,4 @@
 import Backdrop from './backdrop';
-import Header from '../layouts/header';
 import {} from 'twin.macro';
 import Menu from '@components/layouts/header/menu';
 
@@ -9,8 +8,8 @@ type TProps = {
 
 export default function Modal({ handleMenuModal }: TProps) {
   return (
-    <Backdrop handleMenuModal={handleMenuModal}>
-      <Menu />
+    <Backdrop>
+      <Menu showMenu={true} handleMenuModal={handleMenuModal} />
     </Backdrop>
   );
 }

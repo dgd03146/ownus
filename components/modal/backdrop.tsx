@@ -1,13 +1,12 @@
-import { styled } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 
 type TProps = {
   children: React.ReactNode;
-  handleMenuModal: () => void;
 };
 
-export default function Backdrop({ children, handleMenuModal }: TProps) {
+export default function Backdrop({ children }: TProps) {
   return (
-    <Container onClick={handleMenuModal}>
+    <Container>
       <Content onClick={(e) => e.stopPropagation()}>{children}</Content>
     </Container>
   );
@@ -23,12 +22,13 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 99;
+  ${tw`tablet:hidden`}
 `;
 
 const Content = styled.div`
   background-color: white;
-  /* padding: 1em;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto; */
+  border-radius: 1rem;
+  width: 60vw;
+  overflow-y: auto;
 `;
