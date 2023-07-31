@@ -4,14 +4,16 @@ import { getProducts } from '@services/firebase';
 import { QUERY_KEYS } from 'queries/keys';
 import React from 'react';
 import Categories from '@components/products/categories';
-import Products from '@components/products';
+import Products from '@components/products/products';
 import { REVALIDATE_TIME } from 'constants/constant';
+import { useGetProducts } from 'queries/hooks/products/useGetProducts';
+import Loading from '@components/layouts/loading';
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
 
   try {
-    await queryClient.prefetchQuery(QUERY_KEYS.products, getProducts);
+    await queryClient.prefetchQuery(QUERY_KEYS.products('All'), getProducts);
     return {
       props: {
         dehydratedState: dehydrate(queryClient),
@@ -28,11 +30,14 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const ProductsPage = () => {
+  const { products, isLoading, error, selected, handleCategory } = useGetProducts();
+
   return (
     <>
       <div tw="mx-auto">
-        <Categories />
-        <Products />
+        <Categories selected={selected} handleCategory={handleCategory} />
+        {!products && isLoading && <Loading />}
+        {products && <Products products={products} error={error} />}
       </div>
     </>
   );

@@ -38,7 +38,7 @@ const Product = ({ product: { id, image, title, category, price } }: TProps) => 
 export default Product;
 
 const ImageWrapper = css`
-  ${tw`relative w-full mobile:h-[350px] tablet:h-[466px] overflow-hidden rounded-md`}
+  ${tw`relative w-full h-[300px] mobile:h-[350px] tablet:h-[466px] overflow-hidden rounded-md`}
 
   img {
     -webkit-transform: scale(1);
