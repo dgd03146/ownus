@@ -1,6 +1,6 @@
 # Introduction
 
-![Untitled]()
+![image](https://github.com/dgd03146/ownus/assets/84106842/8191bcac-1a5c-40cc-84db-71a2b12a8c27)
 
 Welcome to our Flower Shop website project, a state-of-the-art, fully responsive e-commerce platform built with Next.js 12. This innovative version of Next.js provides exciting features such as middleware, a Rust compiler, and React 18's concurrent features that enhance performance and developer experience.
 
