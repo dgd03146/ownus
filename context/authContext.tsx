@@ -1,6 +1,6 @@
-import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
-import { adminUser, login, logout, onUserStateChange } from '@services/firebase';
+import { adminUser, login, logout } from '@services/auth';
 
 interface IUser extends User {
   isAdmin?: boolean;
@@ -10,7 +10,7 @@ type AuthContextType = {
   uid: string | null;
   user: IUser | null;
   loading: boolean;
-  // setUserInfo: Dispatch<SetStateAction<IUser | undefined>>;
+
   login: typeof login;
   logout: typeof logout;
 };

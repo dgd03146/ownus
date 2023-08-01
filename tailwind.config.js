@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}'
-  ],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
     colors: {
@@ -18,23 +15,24 @@ module.exports = {
       blue: '#458ff7',
       white1: '#ffffff',
       white2: '#ececec',
+      red: 'rgba(224, 72, 82, 0.8)',
 
       gray1: '#d0d0d0',
-      gray2: '#808080'
+      gray2: '#808080',
     },
     fontFamily: {
       Cinzel: ['Cinzel', 'serif'],
       Playfair: ['Playfair Display', 'serif'],
       Quicksand: ['Quicksand', 'serif'],
       Poppins: ['Poppins', 'serif'],
-      GowunDodam: ['Gowun Dodum', 'sans-serif']
+      GowunDodam: ['Gowun Dodum', 'sans-serif'],
     },
     screens: {
       mobile: '480px',
       tablet: '768px',
       laptop: '1024px',
-      desktop: '1280px'
-    }
+      desktop: '1280px',
+    },
   },
-  plugins: []
+  plugins: [],
 };

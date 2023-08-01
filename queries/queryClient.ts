@@ -1,8 +1,9 @@
+import { TToastType, showToast } from '@components/layouts/toast';
 import { QueryClient } from '@tanstack/react-query';
 
 const queryErrorHandler = (error: unknown): void => {
-  const title = error instanceof Error ? error.message : 'error connecting to server';
-  console.error(title);
+  const title = error instanceof Error ? error.message : 'Error connecting to server';
+  showToast({ type: TToastType.error, message: title });
 };
 
 export const defaultQueryClientOptions = {

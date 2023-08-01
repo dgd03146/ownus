@@ -1,6 +1,5 @@
 import Button from '@components/common/button';
 import withAuth from '@components/hoc/withAuth';
-import { addNewProduct } from '@services/firebase';
 import Image from 'next/image';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { TProduct } from 'types/products';
@@ -9,13 +8,12 @@ import tw, { styled } from 'twin.macro';
 import { DEFAULT_PRODUCT, PRODUCTS_FILTER } from 'constants/constant';
 import defaultImage from '/public/images/background6.jpg';
 import useAddProduct from 'queries/hooks/products/useAddProduct';
-import Success from '@components/layouts/sucess';
 
 const NewProduct = () => {
   const [product, setProduct] = useState<TProduct>(DEFAULT_PRODUCT);
   const [file, setFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
-  const [success, setSuccess] = useState<string | null>(null);
+
   const { addProduct } = useAddProduct();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -36,18 +34,7 @@ const NewProduct = () => {
     if (file) {
       uploadImage(file) //
         .then((url) => {
-          addProduct.mutate(
-            { product, url },
-            {
-              onSuccess: () => {
-                setSuccess('Registered');
-                setTimeout(() => {
-                  setSuccess(null);
-                }, 4000);
-              },
-            },
-          );
-
+          addProduct.mutate({ product, url });
           setProduct(DEFAULT_PRODUCT);
         })
         .finally(() => setIsUploading(false));
@@ -56,7 +43,6 @@ const NewProduct = () => {
 
   return (
     <section>
-      {success && <Success success={success} />}
       <Image
         tw="mx-auto mb-4 min-h-[300px] min-w-[300px] rounded-md"
         src={file ? URL.createObjectURL(file) : defaultImage}

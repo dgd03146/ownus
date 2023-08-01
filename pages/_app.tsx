@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Layout from '@components/layouts/layout';
 import React from 'react';
 import { AuthContextProvider } from 'context/authContext';
+import Toast from '@components/layouts/toast';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
         <Hydrate state={pageProps.dehydratedState}>
+          <Toast />
           <Layout title="Ownus">
             <Component {...pageProps} />
           </Layout>

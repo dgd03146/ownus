@@ -1,4 +1,5 @@
-import { addNewProduct } from '@services/firebase';
+import { TToastType, showToast } from '@components/layouts/toast';
+import { addNewProduct } from '@services/products';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ROUTE } from 'constants/constant';
 import { useRouter } from 'next/router';
@@ -18,7 +19,11 @@ function useAddProduct() {
   const addProduct = useMutation(({ product, url }: TMutateData) => addNewProduct(product, url), {
     onSuccess: async () => {
       await queryClient.invalidateQueries(QUERY_KEYS.products('All'));
-      return router.push(ROUTE.products);
+      showToast({ type: TToastType.success, message: 'Registered successfully' });
+      setTimeout(() => {
+        router.push(ROUTE.products);
+      }, 4000);
+      return;
     },
   });
   return { addProduct };
