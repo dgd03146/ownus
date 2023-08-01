@@ -1,6 +1,7 @@
-import { toast, ToastOptions } from 'react-toastify';
+import { Id, toast, ToastOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Container } from './style';
+import { v4 as uuid } from 'uuid';
 
 interface ToastProps {
   type: TToastType;
@@ -16,6 +17,7 @@ export enum TToastType {
 }
 
 const toastOptions: ToastOptions = {
+  toastId: uuid() as Id,
   position: 'bottom-center',
   autoClose: 2000,
   hideProgressBar: true,
@@ -46,8 +48,6 @@ export function showToast({ type, message }: ToastProps) {
   }
 }
 
-const Toast = () => {
+export const Toast = () => {
   return <Container />;
 };
-
-export default Toast;
