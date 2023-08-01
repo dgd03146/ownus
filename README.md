@@ -46,6 +46,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploy
 # What I have considered
 
 ## **Server Side Rendering**
+Server-side rendering (SSR) was implemented using React Query. During build time, data was pre-fetched and cached. Thus, when using React Query, the application utilizes already cached data, reducing unnecessary network calls and effectively optimizing the SSR process.
 
 ## **Twin.macro**
 
