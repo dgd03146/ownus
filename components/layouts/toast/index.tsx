@@ -48,6 +48,7 @@ export function showToast({ type, message }: ToastProps) {
   }
 }
 
-export const Toast = () => {
+const Toast = () => {
   return <Container />;
 };
+export default Toast;
