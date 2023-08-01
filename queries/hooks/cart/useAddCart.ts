@@ -22,7 +22,7 @@ function useAddCart() {
       await queryClient.invalidateQueries(QUERY_KEYS.carts(userId));
       showToast({ type: TToastType.success, message: 'Updated to cart successfully' });
       setTimeout(() => {
-        router.push(ROUTE.products);
+        router.push(ROUTE.cart);
       }, 3000);
       return;
     },

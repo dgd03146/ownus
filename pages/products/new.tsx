@@ -8,6 +8,7 @@ import tw, { styled } from 'twin.macro';
 import { DEFAULT_PRODUCT, PRODUCTS_FILTER } from 'constants/constant';
 import defaultImage from '/public/images/background6.jpg';
 import useAddProduct from 'queries/hooks/products/useAddProduct';
+import Head from 'next/head';
 
 const NewProduct = () => {
   const [product, setProduct] = useState<TProduct>(DEFAULT_PRODUCT);
@@ -42,50 +43,64 @@ const NewProduct = () => {
   };
 
   return (
-    <section>
-      <Image
-        tw="mx-auto mb-4 min-h-[300px] min-w-[300px] rounded-md"
-        src={file ? URL.createObjectURL(file) : defaultImage}
-        alt="local file"
-        width={300}
-        height={300}
-      />
-      <Form onSubmit={handleSubmit} tw="flex flex-col mx-auto justify-center max-w-[500px] w-auto gap-y-8">
-        <input type="file" accept="image/*" name="file" required onChange={handleChange} lang="en" />
-        <input
-          type="text"
-          name="title"
-          value={product.title ?? ''}
-          placeholder="Product Name"
-          required
-          onChange={handleChange}
-        />
-        <select name="category" onChange={handleChange} value={product.category} required>
-          {PRODUCTS_FILTER.map(({ id, title }) => (
-            <option key={id} value={title}>
-              {title}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          name="price"
-          value={product.price ?? ''}
-          placeholder="Price"
-          required
-          onChange={handleChange}
-        />
-        <input
-          type="text"
+    <>
+      <Head>
+        <title>"Ownus | Register New Product"</title>
+        <meta
           name="description"
-          value={product.description ?? ''}
-          placeholder="Prouduct Description"
-          required
-          onChange={handleChange}
+          content="Register and showcase your new flower products on Ownus. Reach your customers more effectively."
         />
-        <Button text={isUploading ? 'Uploading...' : 'Register Product'} disabled={isUploading} />
-      </Form>
-    </section>
+        <meta property="og:title" content="Register New Product | Ownus Flowers" />
+        <meta
+          property="og:description"
+          content="Register and showcase your new flower products on Ownus. Enhance your flower business with us"
+        />
+      </Head>
+      <section>
+        <Image
+          tw="mx-auto mb-4 min-h-[300px] min-w-[300px] rounded-md"
+          src={file ? URL.createObjectURL(file) : defaultImage}
+          alt="local file"
+          width={300}
+          height={300}
+        />
+        <Form onSubmit={handleSubmit} tw="flex flex-col mx-auto justify-center max-w-[500px] w-auto gap-y-8">
+          <input type="file" accept="image/*" name="file" required onChange={handleChange} lang="en" />
+          <input
+            type="text"
+            name="title"
+            value={product.title ?? ''}
+            placeholder="Product Name"
+            required
+            onChange={handleChange}
+          />
+          <select name="category" onChange={handleChange} value={product.category} required>
+            {PRODUCTS_FILTER.map(({ id, title }) => (
+              <option key={id} value={title}>
+                {title}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            name="price"
+            value={product.price ?? ''}
+            placeholder="Price"
+            required
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="description"
+            value={product.description ?? ''}
+            placeholder="Prouduct Description"
+            required
+            onChange={handleChange}
+          />
+          <Button text={isUploading ? 'Uploading...' : 'Register Product'} disabled={isUploading} />
+        </Form>
+      </section>
+    </>
   );
 };
 
