@@ -29,12 +29,16 @@ const toastOptions: ToastOptions = {
 export function showToast({ type, message }: ToastProps) {
   switch (type) {
     case TToastType.success:
-      toast.success(message || 'Success!', {
+      toast.success(message, {
         ...toastOptions,
       });
       break;
     case TToastType.error:
-      toast.error(message || 'Try again', {
+      toast.error(message, {
+        ...toastOptions,
+      });
+    case TToastType.info:
+      toast.error(message, {
         ...toastOptions,
       });
       break;
