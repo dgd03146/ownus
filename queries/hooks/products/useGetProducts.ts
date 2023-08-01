@@ -1,8 +1,7 @@
 import { TProducts } from '../../../types/products';
 import { QUERY_KEYS } from '../../keys';
-
 import { useQuery } from '@tanstack/react-query';
-import { getProducts } from '@services/firebase';
+import { getProducts } from '@services/products';
 import { useState } from 'react';
 
 export const useGetProducts = () => {

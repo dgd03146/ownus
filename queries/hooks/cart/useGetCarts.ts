@@ -1,4 +1,4 @@
-import { getCart } from '@services/firebase';
+import { getCart } from '@services/cart';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthContext } from 'context/authContext';
 import { QUERY_KEYS } from 'queries/keys';

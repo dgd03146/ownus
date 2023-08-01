@@ -1,14 +1,15 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import tw, { styled } from 'twin.macro';
 import { HiPlus } from 'react-icons/hi';
 import { HiMinus } from 'react-icons/hi';
 import { TProduct } from 'types/products';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { getProduct, getProducts } from '@services/firebase';
+import { getProduct, getProducts } from '@services/products';
+
 import useAddCart from 'queries/hooks/cart/useAddCart';
-import Success from '@components/layouts/sucess';
+
 import { BLUR_IMAGE, REVALIDATE_TIME } from 'constants/constant';
 
 interface ProductPageParams extends ParsedUrlQuery {
@@ -45,7 +46,6 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
 };
 
 const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [success, setSuccess] = useState<string | null>(null);
   const { id, title, image, category, price, description } = product;
 
   const { quantity, setQuantity, addOrUpdateItem } = useAddCart();
@@ -63,14 +63,7 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
 
   const handleAddCart = () => {
     const product = { id, image, title, price, category, quantity: 1 };
-    addOrUpdateItem.mutate(product, {
-      onSuccess: () => {
-        setSuccess('Added to cart');
-        setTimeout(() => {
-          setSuccess(null);
-        }, 3000);
-      },
-    });
+    addOrUpdateItem.mutate(product);
   };
 
   return (
@@ -105,7 +98,6 @@ const Product = ({ product }: InferGetStaticPropsType<typeof getStaticProps>) =>
                 <HiPlus />
               </button>
             </div>
-            {success && <Success success={success} />}
             <button tw="bg-primary3 text-white1 py-3 px-12 whitespace-nowrap hover:bg-primary4" onClick={handleAddCart}>
               ADD CART
             </button>
