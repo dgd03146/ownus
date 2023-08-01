@@ -37,7 +37,7 @@ const ProductsPage = () => {
   return (
     <>
       <Head>
-        <title>"Ownus Flowers"</title>
+        <title>Ownus Flowers</title>
         <meta name="description" content="The perfect choice for your needs" />
         <meta property="og:title" content="Ownus Flowers" />
         <meta property="og:image" content={products && products[0].image} />

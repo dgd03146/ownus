@@ -45,7 +45,7 @@ const NewProduct = () => {
   return (
     <>
       <Head>
-        <title>"Ownus | Register New Product"</title>
+        <title>Ownus | Register New Product</title>
         <meta
           name="description"
           content="Register and showcase your new flower products on Ownus. Reach your customers more effectively."
